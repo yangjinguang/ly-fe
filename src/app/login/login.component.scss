@@ -1,0 +1,19 @@
+.app-login {
+    height: 100%;
+    width: 100%;
+    background: url("../../assets/login-bg.svg") no-repeat center center;
+    background-size: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .login-card {
+        width: 368px;
+        .login-forgot-control {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .login-form-button {
+            width: 100%;
+        }
+    }
+}
