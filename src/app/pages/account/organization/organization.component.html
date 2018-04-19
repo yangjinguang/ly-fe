@@ -1,1 +1,18 @@
-<router-outlet></router-outlet>
+<!--<nz-breadcrumb>-->
+<!--<nz-breadcrumb-item>账户管理</nz-breadcrumb-item>-->
+<!--<nz-breadcrumb-item>组织架构</nz-breadcrumb-item>-->
+<!--<nz-breadcrumb-item>列表</nz-breadcrumb-item>-->
+<!--</nz-breadcrumb>-->
+<app-x-bread-crumb [items]="bcItems"></app-x-bread-crumb>
+
+<nz-content class="org-content">
+    <div class="org-tree">
+        <nz-tree [(ngModel)]="orgTree"
+                 [nzShowLine]="true">
+        </nz-tree>
+    </div>
+    <div class="org-body">
+        <router-outlet></router-outlet>
+    </div>
+</nz-content>
+
