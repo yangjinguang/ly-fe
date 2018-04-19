@@ -1,0 +1,21 @@
+@import "../../../variable";
+
+:host {
+    .avatar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        padding: 30px 0;
+        .avatar {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+    }
+    .profile-info {
+        padding: 20px 40px;
+    }
+}

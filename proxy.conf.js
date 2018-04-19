@@ -2,6 +2,7 @@ const PROXY_CONFIG = [
     {
         context: [
             "/api",
+            "/resources"
         ],
         "changeOrigin": true,
         target: "http://localhost:9981",

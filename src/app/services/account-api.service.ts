@@ -11,6 +11,7 @@ export interface Account {
     email: string;
     phone: string;
     wxOpenId: string;
+    avatar: string;
     createdAt: Date;
     updatedAt: Date;
     tenantId: number;

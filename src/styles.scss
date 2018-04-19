@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "variable";
+
 *, ::after, ::before {
     box-sizing: border-box;
     outline: none;
@@ -13,6 +15,44 @@ html, body {
 }
 
 a:hover {
-    color: #1890ff;
+    color: $primary-color;
     opacity: .6;
+}
+
+.card-modal {
+    .ant-modal-body {
+        padding: 0;
+    }
+    .ant-modal-close-x {
+        color: #fff;
+        transition: opacity 0.3s ease;
+        &:hover {
+            opacity: .6;
+        }
+    }
+}
+
+.form-static {
+    .form-static-group {
+        display: flex;
+        align-items: center;
+        height: 28px;
+        margin-bottom: 10px;
+        .form-static-label {
+            flex: 2;
+            color: $muted-color;
+            text-align: right;
+            padding: 0 10px;
+        }
+        .form-static-control {
+            color: #333;
+            flex: 8;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            p {
+                margin: 0;
+            }
+        }
+    }
 }
