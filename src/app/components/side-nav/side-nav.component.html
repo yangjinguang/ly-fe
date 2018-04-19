@@ -1,0 +1,22 @@
+<ul nz-menu [nzMode]="'inline'" style="height:100%" [nzInlineCollapsed]="isCollapsed">
+    <li nz-menu-item routerLink="/pages/dashboard" routerLinkActive="ant-menu-item-selected">
+            <span title>
+                <i class="anticon anticon-dashboard"></i>
+                <span>仪表盘</span>
+            </span>
+    </li>
+    <li nz-submenu [nzOpen]="isNzOpen('account')">
+            <span title>
+                <i class="anticon anticon-user"></i>
+                <span>账户管理</span>
+            </span>
+        <ul>
+            <li nz-menu-item routerLink="/pages/account/organization" routerLinkActive="ant-menu-item-selected">
+                组织架构
+            </li>
+            <li nz-menu-item routerLink="/pages/account/role" routerLinkActive="ant-menu-item-selected">
+                角色
+            </li>
+        </ul>
+    </li>
+</ul>

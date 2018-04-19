@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {NzMessageService} from 'ng-zorro-antd';
@@ -12,6 +12,7 @@ export class AppHttpClient {
 
     constructor(private http: HttpClient,
                 private router: Router,
+                private route: ActivatedRoute,
                 private message: NzMessageService) {
     }
 
@@ -38,17 +39,17 @@ export class AppHttpClient {
             switch (errResp.status) {
                 case 401:
                     console.log(errResp);
-                    // if (errResp.statusText === 'Unauthorized') {
-                    // handle Unauthorized error and redirect to auth/gitlab page
+                    // handle Unauthorized error and redirect to login page
                     errMsg = '401 Unauthorized';
-                    window.location.href = '/proxy/auth';
-                    // }
+                    console.log(this.router.url);
+                    if (this.router.url !== '/login') {
+                        this.router.navigate(['/login']);
+                    }
                     break;
                 case 403:
                     console.log(errResp);
                     errMsg = '403 Forbidden';
                     this.message.warning('没有权限');
-                    // location.href = '/logout';
                     break;
                 default:
                     this.message.error('请求错误');

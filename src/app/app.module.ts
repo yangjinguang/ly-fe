@@ -9,6 +9,8 @@ import {HttpProvider} from './libs/http/http-provider.service';
 import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
+import {NgZorroAntdModule} from 'ng-zorro-antd';
+import {TokenService} from './services/token.service';
 
 
 @NgModule({
@@ -17,15 +19,16 @@ import {HttpClientModule} from '@angular/common/http';
         BrowserAnimationsModule,
         HttpClientModule,
         BrowserModule,
-        AppRoutingModule
-        // NgZorroAntdModule.forRoot()
+        AppRoutingModule,
+        NgZorroAntdModule.forRoot()
     ],
     declarations: [
         AppComponent
     ],
     providers: [
         AppHttpClient,
-        HttpProvider
+        HttpProvider,
+        TokenService
     ],
     bootstrap: [AppComponent]
 })

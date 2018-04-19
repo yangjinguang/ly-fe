@@ -1,19 +1,20 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AccountComponent} from './account.component';
+import {OrganizationTreeComponent} from './organization-tree/organization-tree.component';
+import {OrganizationComponent} from './organization.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: AccountComponent,
+        component: OrganizationComponent,
         children: [
             {
-                path: 'organization',
-                loadChildren: './organization/organization.module#OrganizationModule'
+                path: 'tree',
+                component: OrganizationTreeComponent
             },
             {
                 path: '',
-                redirectTo: 'organization',
+                redirectTo: 'tree',
                 pathMatch: 'full'
             }
         ]
@@ -24,5 +25,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class AccountRoutingModule {
+export class OrganizationRoutingModule {
 }

@@ -1,3 +1,38 @@
-<p>
-  nav works!
-</p>
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="app-header">
+    <div class="logo" [ngStyle]="{'width': isCollapsed?'40px':'100px'}">
+
+    </div>
+    <ul class="app-header-menu">
+        <li>
+            <div class="header-item" (click)="collapseSideNav()">
+                <i class="anticon"
+                   [class.anticon-menu-unfold]="isCollapsed"
+                   [class.anticon-menu-fold]="!isCollapsed"></i>
+            </div>
+        </li>
+    </ul>
+    <div class="app-header-opt">
+        <ul>
+            <li>
+                <nz-dropdown>
+                    <a nz-dropdown class="header-item header-item-user">
+                        <i class="anticon anticon-user"></i>
+                        <span>{{profile?.name}}</span>
+                        <i class="anticon anticon-down"></i>
+                    </a>
+                    <ul nz-menu>
+                        <li nz-menu-item>
+                            <a><i class="anticon anticon-profile" style="margin-right: 8px"></i>个人信息</a>
+                        </li>
+                        <li nz-menu-item (click)="logout()">
+                            <a><i class="anticon anticon-logout" style="margin-right: 8px"></i>退出</a>
+                        </li>
+                    </ul>
+                </nz-dropdown>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
