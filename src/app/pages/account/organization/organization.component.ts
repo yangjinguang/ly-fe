@@ -30,6 +30,9 @@ export class OrganizationComponent implements OnInit {
         this.getOrgTree();
         this.bcItems = [
             {
+                text: '账户管理'
+            },
+            {
                 text: '组织架构'
             }
         ];

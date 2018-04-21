@@ -3,7 +3,6 @@ export interface Organization {
     id: number;
     parentId: number;
     name: string;
-    address: string;
     description: string;
     isClass: number;
     createdAt: Date;

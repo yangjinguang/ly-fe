@@ -3,10 +3,10 @@ import {Account} from '../../services/account-api.service';
 
 @Component({
     selector: 'app-profile-view',
-    templateUrl: './profile-view.component.html',
-    styleUrls: ['./profile-view.component.scss']
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
-export class ProfileViewComponent implements OnInit {
+export class ProfileComponent implements OnInit {
     public profile: Account;
 
     constructor() {

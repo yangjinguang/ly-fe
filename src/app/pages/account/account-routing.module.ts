@@ -12,6 +12,10 @@ const routes: Routes = [
                 loadChildren: './organization/organization.module#OrganizationModule'
             },
             {
+                path: 'role',
+                loadChildren: './role/role.module#RoleModule'
+            },
+            {
                 path: '',
                 redirectTo: 'organization',
                 pathMatch: 'full'

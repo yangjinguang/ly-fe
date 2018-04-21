@@ -11,6 +11,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {TokenService} from './services/token.service';
+import {ProfileModule} from './components/profile/profile.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {TokenService} from './services/token.service';
         HttpClientModule,
         BrowserModule,
         AppRoutingModule,
-        NgZorroAntdModule.forRoot()
+        NgZorroAntdModule.forRoot(),
+        ProfileModule
     ],
     declarations: [
         AppComponent

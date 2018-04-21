@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {XBreadCrumbService} from '../../../../components/x-bread-crumb/x-bread-crumb.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ProfileService} from '../../../../components/profile/profile.service';
+import {Account} from '../../../../services/account-api.service';
 
 @Component({
     selector: 'app-organization-create',
@@ -7,17 +10,21 @@ import {XBreadCrumbService} from '../../../../components/x-bread-crumb/x-bread-c
     styleUrls: ['./organization-create.component.scss']
 })
 export class OrganizationCreateComponent implements OnInit {
+    public orgForm: FormGroup;
+    public profile: Account;
 
-    constructor(private xBreadCrumbService: XBreadCrumbService) {
+    constructor(private xBreadCrumbService: XBreadCrumbService,
+                private fb: FormBuilder,
+                private profileService: ProfileService) {
     }
 
     ngOnInit() {
         const bcItems = [
             {
-                text: '组织架构'
+                text: '账户管理'
             },
             {
-                text: '列表',
+                text: '组织架构',
                 link: '../'
             },
             {
@@ -25,6 +32,35 @@ export class OrganizationCreateComponent implements OnInit {
             }
         ];
         this.xBreadCrumbService.setItems(bcItems);
+        this.orgFormBuild();
+        this.getProfile();
+    }
+
+    private getProfile() {
+        this.profileService.getProfile().subscribe(result => {
+            this.profile = result;
+            console.log(this.profile);
+        });
+    }
+
+    private orgFormBuild() {
+        this.orgForm = this.fb.group({
+            parentId: [null, Validators.required],
+            name: [null, Validators.required],
+            description: [],
+            isClass: [false]
+        });
+    }
+
+    public save() {
+        const postData = {
+            parentId: this.orgForm.get('parentId').value,
+            name: this.orgForm.get('name').value,
+            description: this.orgForm.get('description').value,
+            isClass: this.orgForm.get('isClass').value
+        };
+        postData['tenantId'] = this.profile.tenantId;
+        console.log(postData);
     }
 
 }

@@ -14,7 +14,11 @@ export class OrganizationListComponent implements OnInit {
     ngOnInit() {
         const bcItems = [
             {
-                text: '组织架构'
+                text: '账户管理'
+            },
+            {
+                text: '组织架构',
+                link: '../'
             },
             {
                 text: '列表'
