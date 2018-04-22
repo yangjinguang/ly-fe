@@ -1,6 +1,5 @@
 import {Organization} from './organization';
-import {NzTreeNode} from 'ng-zorro-antd';
 
-export interface OrganizationTree extends Organization, NzTreeNode {
+export interface OrganizationTree extends Organization {
     children: OrganizationTree[];
 }

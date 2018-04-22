@@ -4,11 +4,13 @@ import {Organization} from './models/organization';
 import {NzTreeNode} from 'ng-zorro-antd';
 import {XBreadCrumbService} from '../../../components/x-bread-crumb/x-bread-crumb.service';
 import {XBreadCrumbItem} from '../../../components/x-bread-crumb/x-bread-crumb-item';
+import {OrganizationApiService} from '../../../services/organization-api.service';
 
 @Component({
     selector: 'app-organization',
     templateUrl: './organization.component.html',
-    styleUrls: ['./organization.component.scss']
+    styleUrls: ['./organization.component.scss'],
+    providers: [OrganizationApiService]
 })
 export class OrganizationComponent implements OnInit {
     public orgTree: NzTreeNode[];
@@ -16,6 +18,7 @@ export class OrganizationComponent implements OnInit {
     public bcItems: XBreadCrumbItem[];
 
     constructor(private orgTreeService: OrganizationTreeService,
+                private organizationApi: OrganizationApiService,
                 private xBreadCrumbService: XBreadCrumbService) {
     }
 
@@ -40,42 +43,9 @@ export class OrganizationComponent implements OnInit {
     }
 
     private getOrgTree() {
-        const organizations = [
-            <Organization>{
-                id: 1,
-                name: 'a',
-                children: [
-                    {
-                        name: 'a-a',
-                        id: 11,
-                        children: [
-                            <Organization>{
-                                id: 111,
-                                name: 'a-a-a',
-                            }
-                        ]
-                    },
-                    {
-                        name: 'a-b',
-                        id: 12,
-                    }
-                ]
-            },
-            <Organization>{
-                id: 2,
-                name: 'b',
-                children: [
-                    {
-                        name: 'b-a',
-                        id: 21,
-                    },
-                    {
-                        name: 'b-b',
-                        id: 22,
-                    }
-                ]
-            }
-        ];
-        this.orgTreeService.setOrgTree(organizations);
+        this.organizationApi.tree().subscribe(result => {
+            const organizations = result.data.children;
+            this.orgTreeService.setOrgTree(organizations);
+        });
     }
 }

@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {ApiResponse} from './api-response';
 import {Observable} from 'rxjs/Observable';
 import {Organization} from '../pages/account/organization/models/organization';
+import {OrganizationTree} from '../pages/account/organization/models/organization-tree';
 
 export interface OrganizationListResponse extends ApiResponse {
     data: Organization[];
@@ -23,6 +24,10 @@ export class OrganizationApiService {
 
     public list(page: number, size: number): Observable<OrganizationListResponse> {
         return this.http.get(this.baseUrl, {page: page, size: size});
+    }
+
+    public tree(): Observable<OrganizationResponse> {
+        return this.http.get(`${this.baseUrl}/tree`);
     }
 
     public create(postData: Object): Observable<OrganizationResponse> {
