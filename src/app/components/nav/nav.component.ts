@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Account, AccountApiService} from '../../services/account-api.service';
 import {SideNavService} from '../side-nav/side-nav.service';
 import {ProfileService} from '../profile/profile.service';
+import {TokenService} from '../../services/token.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-nav',
@@ -15,6 +17,8 @@ export class NavComponent implements OnInit {
 
     constructor(private accountApi: AccountApiService,
                 private sideNavService: SideNavService,
+                private token: TokenService,
+                private router: Router,
                 private profileService: ProfileService) {
     }
 
@@ -38,7 +42,8 @@ export class NavComponent implements OnInit {
     }
 
     public logout() {
-
+        this.token.clear();
+        this.router.navigate(['/login'])
     }
 
 }

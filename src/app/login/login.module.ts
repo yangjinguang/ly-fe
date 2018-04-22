@@ -4,6 +4,7 @@ import {LoginComponent} from './login.component';
 import {LoginRoutingModule} from './login-routing.module';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {ReactiveFormsModule} from '@angular/forms';
+import {LoginTenantSelectComponent} from './login-tenant-select/login-tenant-select.component';
 
 @NgModule({
     imports: [
@@ -12,7 +13,13 @@ import {ReactiveFormsModule} from '@angular/forms';
         LoginRoutingModule,
         NgZorroAntdModule.forRoot()
     ],
-    declarations: [LoginComponent]
+    declarations: [
+        LoginComponent,
+        LoginTenantSelectComponent
+    ],
+    entryComponents: [
+        LoginTenantSelectComponent
+    ]
 })
 export class LoginModule {
 }

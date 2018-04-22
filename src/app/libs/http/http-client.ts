@@ -49,7 +49,12 @@ export class AppHttpClient {
                 case 403:
                     console.log(errResp);
                     errMsg = '403 Forbidden';
-                    this.message.warning('没有权限');
+                    console.log();
+                    if (errResp.error['code'] === 1) {
+                        this.router.navigate(['/login']);
+                    } else {
+                        this.message.warning('没有权限');
+                    }
                     break;
                 default:
                     this.message.error('请求错误');

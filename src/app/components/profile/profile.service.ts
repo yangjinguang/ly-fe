@@ -3,6 +3,8 @@ import {NzModalService} from 'ng-zorro-antd';
 import {Account, AccountApiService} from '../../services/account-api.service';
 import {ProfileComponent} from './profile.component';
 import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+import {Profile} from 'selenium-webdriver/firefox';
 
 @Injectable()
 export class ProfileService {
@@ -46,4 +48,12 @@ export class ProfileService {
         return this.subject.asObservable();
     }
 
+    public refreshProfile(): Observable<Account> {
+        return this.accountApi.profile().map(result => {
+            this.curProfile = result.data;
+            this.subject.next(this.curProfile);
+            this.isGetting = false;
+            return this.curProfile;
+        });
+    }
 }
