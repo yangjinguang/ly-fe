@@ -3,18 +3,26 @@ import {XBreadCrumbService} from '../../../../components/x-bread-crumb/x-bread-c
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../../../../components/profile/profile.service';
 import {Account} from '../../../../services/account-api.service';
+import {OrganizationApiService} from '../../../../services/organization-api.service';
+import {Organization} from '../models/organization';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-organization-create',
     templateUrl: './organization-create.component.html',
-    styleUrls: ['./organization-create.component.scss']
+    styleUrls: ['./organization-create.component.scss'],
+    providers: [OrganizationApiService]
 })
 export class OrganizationCreateComponent implements OnInit {
     public orgForm: FormGroup;
     public profile: Account;
+    public organizations: Organization[];
 
     constructor(private xBreadCrumbService: XBreadCrumbService,
                 private fb: FormBuilder,
+                private router: Router,
+                private route: ActivatedRoute,
+                private organizationApi: OrganizationApiService,
                 private profileService: ProfileService) {
     }
 
@@ -41,6 +49,13 @@ export class OrganizationCreateComponent implements OnInit {
             this.profile = result;
             console.log(this.profile);
         });
+        this.getOrganizations();
+    }
+
+    private getOrganizations() {
+        this.organizationApi.list(1, 20).subscribe(result => {
+            this.organizations = result.data;
+        });
     }
 
     private orgFormBuild() {
@@ -59,8 +74,10 @@ export class OrganizationCreateComponent implements OnInit {
             description: this.orgForm.get('description').value,
             isClass: this.orgForm.get('isClass').value
         };
-        postData['tenantId'] = this.profile.tenantId;
-        console.log(postData);
+        this.organizationApi.create(postData).subscribe(result => {
+            console.log(result);
+            this.router.navigate(['../'], {relativeTo: this.route});
+        });
     }
 
 }

@@ -7,5 +7,6 @@ export const environment = {
     production: false,
     loginApi: '/api/login',
     accountApi: '/api/accounts',
-    tenantApi: '/api/tenants'
+    tenantApi: '/api/tenants',
+    organizationApi: '/api/organizations'
 };

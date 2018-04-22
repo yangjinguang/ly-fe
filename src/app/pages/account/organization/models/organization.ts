@@ -1,12 +1,15 @@
-
 export interface Organization {
     id: number;
-    parentId: number;
+    organizationId: string;
+    parentId: string;
     name: string;
     description: string;
-    isClass: number;
+    avatar: string;
+    isRoot: boolean;
+    isClass: boolean;
+    enabled: boolean;
+    tenantId: string;
     createdAt: Date;
     updatedAt: Date;
-    tenantId: number;
     children?: Organization[];
 }

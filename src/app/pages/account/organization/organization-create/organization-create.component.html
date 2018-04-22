@@ -12,13 +12,17 @@
         <nz-form-item>
             <nz-form-label [nzSpan]="6" nzFor="parentId">上级组织</nz-form-label>
             <nz-form-control [nzSpan]="14">
-                <input nz-input name="parentId" formControlName="parentId">
+                <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请选择" formControlName="parentId">
+                    <nz-option *ngFor="let org of organizations" [nzLabel]="org.name" [nzValue]="org.organizationId"></nz-option>
+                </nz-select>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSpan]="6" nzFor="description">描述</nz-form-label>
             <nz-form-control [nzSpan]="14">
-                <input nz-input name="description" formControlName="description">
+                <textarea nz-input
+                          name="description"
+                          formControlName="description"></textarea>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
