@@ -16,7 +16,7 @@ export class OrganizationTreeService {
         return this.orgTree;
     }
 
-    private orgTreeBuild(organizations: Organization[], orgTreeNode: NzTreeNode[]) {
+    private orgTreeBuild(organizations: Organization[], orgTreeNode: NzTreeNode) {
         organizations.forEach(org => {
             const newNode = new NzTreeNode({
                 title: org.name,
@@ -24,18 +24,25 @@ export class OrganizationTreeService {
             });
             newNode.origin = org;
             newNode.isLeaf = !org.children || org.children.length <= 0;
+            newNode.parentNode = orgTreeNode;
             // newNode.nzShowExpand = !newNode.isLeaf;
-            orgTreeNode.push(newNode);
+            orgTreeNode.children = orgTreeNode.children || [];
+            orgTreeNode.children.push(newNode);
             if (org.children && org.children.length > 0) {
-                newNode.children = [];
-                this.orgTreeBuild(org.children, newNode.children);
+                this.orgTreeBuild(org.children, newNode);
             }
         });
     }
 
     public setOrgTree(organizations: Organization[]) {
-        this.orgTree = [];
-        this.orgTreeBuild(organizations, this.orgTree);
+        const rootNode = new NzTreeNode({
+            title: '全公司',
+            key: '0'
+        });
+        rootNode.isExpanded = true;
+        rootNode.isSelected = true;
+        this.orgTree = [rootNode];
+        this.orgTreeBuild(organizations, rootNode);
         this.subject.next(this.orgTree);
     }
 

@@ -3,9 +3,9 @@ import {NzFormatEmitEvent, NzMessageService, NzModalRef, NzModalService, NzTreeN
 import {OrganizationApiService} from '../../../../services/organization-api.service';
 import {OrganizationTreeService} from '../services/organization-tree.service';
 import {Router} from '@angular/router';
-import {Organization} from '../models/organization';
 import {OrganizationCreateModalComponent} from '../components/organization-create-modal/organization-create-modal.component';
 import {FormGroup} from '@angular/forms';
+import {OrganizationAccountCreateModalComponent} from '../components/organization-account-create-modal/organization-account-create-modal.component';
 
 @Component({
     selector: 'app-organization-tree',
@@ -40,10 +40,8 @@ export class OrganizationTreeComponent implements OnInit {
     }
 
     public orgItemClick(e: NzFormatEmitEvent) {
-        console.log(e.node.origin);
         e.node.isSelected = true;
         this.curTreeNode = e.node;
-        // this.router.navigate(['list/' + e.node.key], {relativeTo: this.route});
     }
 
     public openOrganizationCreateModal() {
@@ -93,7 +91,58 @@ export class OrganizationTreeComponent implements OnInit {
                 this.getOrgTree();
             }
             this.message.success('创建成功');
-            // this.router.navigate(['../'], {relativeTo: this.route});
+        });
+    }
+
+    public openCreateAccountModal() {
+        const modal = this.modalService.create({
+            nzTitle: '添加员工',
+            nzContent: OrganizationAccountCreateModalComponent,
+            nzFooter: [
+                {
+                    label: '取消',
+                    type: 'default',
+                    onClick: () => {
+                        modal.close();
+                    }
+                },
+                {
+                    label: '确定',
+                    type: 'primary',
+                    disabled: (a) => a.accountForm.invalid,
+                    onClick: (a) => {
+                        this.createAccount(a.accountForm, modal);
+                    }
+                }
+            ]
+        });
+    }
+
+    public createAccount(accountForm: FormGroup, modal: NzModalRef) {
+        const postData = {
+            username: accountForm.get('username').value,
+            name: accountForm.get('name').value,
+            email: accountForm.get('email').value,
+            phone: accountForm.get('phone').value,
+            isAdmin: accountForm.get('isAdmin').value
+        };
+        console.log(postData);
+        // TODO
+        modal.close();
+        this.message.success('添加成功');
+    }
+
+    public deleteOrganization() {
+        this.modalService.confirm({
+            nzTitle: '确定要删除此部门吗？',
+            nzOnOk: (a) => {
+                console.log(this.curTreeNode);
+                // TODO
+                const parentNode = this.curTreeNode.getParentNode();
+                console.log(parentNode);
+                const index = parentNode.children.findIndex(n => n.key === this.curTreeNode.key);
+                parentNode.children.splice(index, 1);
+            }
         });
     }
 

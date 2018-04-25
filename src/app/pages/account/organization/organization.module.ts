@@ -9,6 +9,7 @@ import {XBreadCrumbService} from '../../../components/x-bread-crumb/x-bread-crum
 import {XBreadCrumbModule} from '../../../components/x-bread-crumb/x-bread-crumb.module';
 import {OrganizationTreeComponent} from './organization-tree/organization-tree.component';
 import {OrganizationCreateModalComponent} from './components/organization-create-modal/organization-create-modal.component';
+import { OrganizationAccountCreateModalComponent } from './components/organization-account-create-modal/organization-account-create-modal.component';
 
 @NgModule({
     imports: [
@@ -22,14 +23,16 @@ import {OrganizationCreateModalComponent} from './components/organization-create
     declarations: [
         OrganizationComponent,
         OrganizationTreeComponent,
-        OrganizationCreateModalComponent
+        OrganizationCreateModalComponent,
+        OrganizationAccountCreateModalComponent
     ],
     providers: [
         OrganizationTreeService,
         XBreadCrumbService
     ],
     entryComponents: [
-        OrganizationCreateModalComponent
+        OrganizationCreateModalComponent,
+        OrganizationAccountCreateModalComponent
     ]
 })
 export class OrganizationModule {

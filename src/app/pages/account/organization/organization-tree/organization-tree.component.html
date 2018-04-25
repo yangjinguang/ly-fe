@@ -8,6 +8,36 @@
 <div class="org-body">
     <div class="org-list-title">
         <h3>{{curTreeNode?.origin?.name||'全公司'}}</h3>
-        <button nz-button [nzType]="'primary'" (click)="openOrganizationCreateModal()">创建子部门</button>
+        <nz-dropdown [nzTrigger]="'click'">
+            <button nz-button [nzType]="'primary'" nz-dropdown><span>操作</span> <i class="anticon anticon-down"></i>
+            </button>
+            <ul nz-menu>
+                <li *ngIf="curTreeNode&&curTreeNode.key!=='0';" nz-menu-item (click)="openOrganizationCreateModal()">
+                    <a>
+                        <i class="anticon anticon-form"></i>
+                        编辑
+                    </a>
+                </li>
+                <li nz-menu-item (click)="openOrganizationCreateModal()">
+                    <a>
+                        <i class="anticon anticon-usergroup-add"></i>
+                        添加子部门
+                    </a>
+                </li>
+                <li nz-menu-item (click)="openCreateAccountModal()">
+                    <a>
+                        <i class="anticon anticon-user-add"></i>
+                        添加员工
+                    </a>
+                </li>
+                <li *ngIf="curTreeNode&&curTreeNode.key!=='0'" nz-menu-divider></li>
+                <li nz-menu-item class="text-danger"
+                    (click)="deleteOrganization()"
+                    *ngIf="curTreeNode&&curTreeNode.key!=='0'">
+                    <i class="anticon anticon-delete"></i>
+                    删除
+                </li>
+            </ul>
+        </nz-dropdown>
     </div>
 </div>

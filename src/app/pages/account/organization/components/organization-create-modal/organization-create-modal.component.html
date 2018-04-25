@@ -1,15 +1,16 @@
-<form nz-form [formGroup]="orgForm" (submit)="save()">
+<form nz-form [formGroup]="orgForm">
     <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="name">名称</nz-form-label>
+        <nz-form-label [nzSpan]="6" nzFor="name" [nzRequired]="true">名称</nz-form-label>
         <nz-form-control [nzSpan]="14">
             <input style="width: 200px;" nz-input name="name" formControlName="name">
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="parentId">上级部门</nz-form-label>
+        <nz-form-label [nzSpan]="6" nzFor="parentId" [nzRequired]="true">上级部门</nz-form-label>
         <nz-form-control [nzSpan]="14">
             <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请选择" formControlName="parentId">
-                <nz-option *ngFor="let org of organizations" [nzLabel]="org.name" [nzValue]="org.organizationId"></nz-option>
+                <nz-option *ngFor="let org of organizations" [nzLabel]="org.name"
+                           [nzValue]="org.organizationId"></nz-option>
             </nz-select>
         </nz-form-control>
     </nz-form-item>
@@ -28,11 +29,6 @@
                 <label nz-radio [nzValue]="true">是</label>
                 <label nz-radio [nzValue]="false">否</label>
             </nz-radio-group>
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-        <nz-form-control [nzSpan]="14" [nzOffset]="6">
-            <button nz-button nzType="primary">保存</button>
         </nz-form-control>
     </nz-form-item>
 </form>

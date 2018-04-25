@@ -1,0 +1,35 @@
+<form nz-form [formGroup]="accountForm">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="username" [nzRequired]="true">用户名</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input style="width: 200px;" nz-input name="username" formControlName="username">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="name" [nzRequired]="true">姓名</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input style="width: 200px;" nz-input name="name" formControlName="name">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="email">邮箱</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input nz-input name="email" type="email" formControlName="email">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="phone">手机号</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input nz-input name="phone" formControlName="phone">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="isAdmin">管理员</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <nz-radio-group formControlName="isAdmin">
+                <label nz-radio [nzValue]="true">是</label>
+                <label nz-radio [nzValue]="false">否</label>
+            </nz-radio-group>
+        </nz-form-control>
+    </nz-form-item>
+</form>
