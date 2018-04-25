@@ -26,6 +26,10 @@ export class OrganizationApiService {
         return this.http.get(this.baseUrl, {page: page, size: size});
     }
 
+    public get(id: number): Observable<OrganizationResponse> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
+
     public tree(): Observable<OrganizationResponse> {
         return this.http.get(`${this.baseUrl}/tree`);
     }

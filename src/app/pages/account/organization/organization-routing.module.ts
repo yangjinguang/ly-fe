@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {OrganizationComponent} from './organization.component';
-import {OrganizationListComponent} from './organization-list/organization-list.component';
-import {OrganizationCreateComponent} from './organization-create/organization-create.component';
+import {OrganizationTreeComponent} from './organization-tree/organization-tree.component';
 
 const routes: Routes = [
     {
@@ -10,16 +9,12 @@ const routes: Routes = [
         component: OrganizationComponent,
         children: [
             {
-                path: 'list',
-                component: OrganizationListComponent
-            },
-            {
-                path: 'create',
-                component: OrganizationCreateComponent
+                path: 'tree',
+                component: OrganizationTreeComponent
             },
             {
                 path: '',
-                redirectTo: 'list',
+                redirectTo: 'tree',
                 pathMatch: 'full'
             }
         ]

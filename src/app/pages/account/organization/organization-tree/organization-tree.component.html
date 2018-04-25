@@ -1,0 +1,13 @@
+<div class="org-tree">
+    <nz-tree [(ngModel)]="orgTree"
+             [nzShowLine]="true"
+             (nzClick)="orgItemClick($event)">
+    </nz-tree>
+
+</div>
+<div class="org-body">
+    <div class="org-list-title">
+        <h3>{{curTreeNode?.origin?.name||'全公司'}}</h3>
+        <button nz-button [nzType]="'primary'" (click)="openOrganizationCreateModal()">创建子部门</button>
+    </div>
+</div>

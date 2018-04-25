@@ -22,6 +22,9 @@ export class OrganizationTreeService {
                 title: org.name,
                 key: org.id.toString()
             });
+            newNode.origin = org;
+            newNode.isLeaf = !org.children || org.children.length <= 0;
+            // newNode.nzShowExpand = !newNode.isLeaf;
             orgTreeNode.push(newNode);
             if (org.children && org.children.length > 0) {
                 newNode.children = [];

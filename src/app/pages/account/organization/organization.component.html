@@ -6,13 +6,6 @@
 <app-x-bread-crumb [items]="bcItems"></app-x-bread-crumb>
 
 <nz-content class="org-content">
-    <div class="org-tree">
-        <nz-tree [(ngModel)]="orgTree"
-                 [nzShowLine]="true">
-        </nz-tree>
-    </div>
-    <div class="org-body">
-        <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
 </nz-content>
 

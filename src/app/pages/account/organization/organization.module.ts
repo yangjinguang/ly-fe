@@ -2,13 +2,13 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {OrganizationComponent} from './organization.component';
 import {OrganizationRoutingModule} from './organization-routing.module';
-import {OrganizationListComponent} from './organization-list/organization-list.component';
 import {OrganizationTreeService} from './services/organization-tree.service';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {OrganizationCreateComponent} from './organization-create/organization-create.component';
 import {XBreadCrumbService} from '../../../components/x-bread-crumb/x-bread-crumb.service';
 import {XBreadCrumbModule} from '../../../components/x-bread-crumb/x-bread-crumb.module';
+import {OrganizationTreeComponent} from './organization-tree/organization-tree.component';
+import {OrganizationCreateModalComponent} from './components/organization-create-modal/organization-create-modal.component';
 
 @NgModule({
     imports: [
@@ -21,12 +21,15 @@ import {XBreadCrumbModule} from '../../../components/x-bread-crumb/x-bread-crumb
     ],
     declarations: [
         OrganizationComponent,
-        OrganizationListComponent,
-        OrganizationCreateComponent
+        OrganizationTreeComponent,
+        OrganizationCreateModalComponent
     ],
     providers: [
         OrganizationTreeService,
         XBreadCrumbService
+    ],
+    entryComponents: [
+        OrganizationCreateModalComponent
     ]
 })
 export class OrganizationModule {
