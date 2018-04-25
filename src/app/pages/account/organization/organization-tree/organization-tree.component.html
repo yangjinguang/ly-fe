@@ -1,5 +1,8 @@
 <div class="org-tree">
     <nz-tree [(ngModel)]="orgTree"
+             [nzDraggable]="true"
+             (nzOnDragStart)="orgDragStart($event)"
+             (nzOnDrop)="orgDrop($event)"
              [nzShowLine]="true"
              (nzClick)="orgItemClick($event)">
     </nz-tree>

@@ -16,6 +16,7 @@ import {OrganizationAccountCreateModalComponent} from '../components/organizatio
 export class OrganizationTreeComponent implements OnInit {
     public orgTree: NzTreeNode[];
     public curTreeNode: NzTreeNode;
+    private dragNodeParent: NzTreeNode;
 
     constructor(private organizationApi: OrganizationApiService,
                 private orgTreeService: OrganizationTreeService,
@@ -127,7 +128,7 @@ export class OrganizationTreeComponent implements OnInit {
             isAdmin: accountForm.get('isAdmin').value
         };
         console.log(postData);
-        // TODO
+        // TODO API
         modal.close();
         this.message.success('添加成功');
     }
@@ -137,13 +138,26 @@ export class OrganizationTreeComponent implements OnInit {
             nzTitle: '确定要删除此部门吗？',
             nzOnOk: (a) => {
                 console.log(this.curTreeNode);
-                // TODO
+                // TODO API
                 const parentNode = this.curTreeNode.getParentNode();
                 console.log(parentNode);
                 const index = parentNode.children.findIndex(n => n.key === this.curTreeNode.key);
                 parentNode.children.splice(index, 1);
             }
         });
+    }
+
+    public orgDragStart(e) {
+        this.dragNodeParent = e.dragNode.getParentNode();
+    }
+
+    public orgDrop(e) {
+        const dragNode = e.dragNode;
+        if (this.dragNodeParent && this.dragNodeParent.children.length <= 0) {
+            this.dragNodeParent.isLeaf = true;
+        }
+        const dropNode = e.node;
+        // TODO 调API改变排序和父节点
     }
 
 }
