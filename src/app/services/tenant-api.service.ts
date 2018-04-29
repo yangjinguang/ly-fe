@@ -1,22 +1,8 @@
 import {Injectable} from '@angular/core';
 import {AppHttpClient} from '../libs/http/http-client';
 import {environment} from '../../environments/environment';
-import {ApiResponse} from './api-response';
 import {Observable} from 'rxjs/Observable';
-
-export interface Tenant {
-    id: number;
-    tenantId: string;
-    name: string;
-    description: string;
-    address: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface TenantListResponse extends ApiResponse {
-    data: Tenant[];
-}
+import {TenantListResponse} from './models/tenant-list-response';
 
 @Injectable()
 export class TenantApiService {

@@ -1,35 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AppHttpClient} from '../libs/http/http-client';
 import {environment} from '../../environments/environment';
-import {ApiResponse} from './api-response';
 import {Observable} from 'rxjs/Observable';
-
-export interface Account {
-    id: number;
-    username: string;
-    name: string;
-    email: string;
-    phone: string;
-    wxOpenId: string;
-    avatar: string;
-    createdAt: Date;
-    updatedAt: Date;
-    tenantId: number;
-    organizationId: number;
-    roleId: number;
-}
-
-export interface AccountResponse extends ApiResponse {
-    data: Account;
-}
-
-export interface AccountListResponse extends ApiResponse {
-    data: Account[];
-}
-
-export interface AccountProfileResponse extends ApiResponse {
-    data: Account;
-}
+import {AccountProfileResponse} from './models/account-profile-response';
+import {AccountListResponse} from './models/account-list-response';
+import {AccountResponse} from './models/account-response';
 
 @Injectable()
 export class AccountApiService {

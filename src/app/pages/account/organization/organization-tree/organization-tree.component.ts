@@ -6,8 +6,9 @@ import {Router} from '@angular/router';
 import {OrganizationCreateModalComponent} from '../components/organization-create-modal/organization-create-modal.component';
 import {FormGroup} from '@angular/forms';
 import {OrganizationAccountCreateModalComponent} from '../components/organization-account-create-modal/organization-account-create-modal.component';
-import {Account, AccountApiService} from '../../../../services/account-api.service';
+import {AccountApiService} from '../../../../services/account-api.service';
 import {Organization} from '../models/organization';
+import {Account} from '../models/account';
 
 @Component({
     selector: 'app-organization-tree',
@@ -181,11 +182,12 @@ export class OrganizationTreeComponent implements OnInit {
             nzTitle: '确定要删除此部门吗？',
             nzOnOk: (a) => {
                 console.log(this.curTreeNode);
-                // TODO API
-                const parentNode = this.curTreeNode.getParentNode();
-                console.log(parentNode);
-                const index = parentNode.children.findIndex(n => n.key === this.curTreeNode.key);
-                parentNode.children.splice(index, 1);
+                this.organizationApi.delete(this.curOrganization.organizationId).subscribe(result => {
+                    const parentNode = this.curTreeNode.getParentNode();
+                    console.log(parentNode);
+                    const index = parentNode.children.findIndex(n => n.key === this.curTreeNode.key);
+                    parentNode.children.splice(index, 1);
+                });
             }
         });
     }

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Account, AccountApiService} from '../../services/account-api.service';
+import {AccountApiService} from '../../services/account-api.service';
 import {SideNavService} from '../side-nav/side-nav.service';
 import {ProfileService} from '../profile/profile.service';
 import {TokenService} from '../../services/token.service';
 import {Router} from '@angular/router';
+import {Account} from '../../pages/account/organization/models/account';
 
 @Component({
     selector: 'app-nav',
@@ -43,7 +44,7 @@ export class NavComponent implements OnInit {
 
     public logout() {
         this.token.clear();
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
     }
 
 }

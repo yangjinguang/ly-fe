@@ -1,17 +1,8 @@
 import {Injectable} from '@angular/core';
 import {AppHttpClient} from '../libs/http/http-client';
 import {environment} from '../../environments/environment';
-import {ApiResponse} from './api-response';
 import {Observable} from 'rxjs/Observable';
-
-export interface LoginResponseData {
-    token: string;
-    username: string;
-}
-
-export interface LoginResponse extends ApiResponse {
-    data: LoginResponseData;
-}
+import {LoginResponse} from './models/login-response';
 
 @Injectable()
 export class LoginApiService {

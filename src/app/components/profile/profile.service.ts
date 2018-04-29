@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd';
-import {Account, AccountApiService} from '../../services/account-api.service';
+import {AccountApiService} from '../../services/account-api.service';
 import {ProfileComponent} from './profile.component';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {Profile} from 'selenium-webdriver/firefox';
+import {Account} from '../../pages/account/organization/models/account';
 
 @Injectable()
 export class ProfileService {

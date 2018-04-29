@@ -1,23 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AppHttpClient} from '../libs/http/http-client';
 import {environment} from '../../environments/environment';
-import {ApiResponse} from './api-response';
+import {ApiResponse} from './models/api-response';
 import {Observable} from 'rxjs/Observable';
-import {Organization} from '../pages/account/organization/models/organization';
-import {OrganizationTree} from '../pages/account/organization/models/organization-tree';
-import {Account} from './account-api.service';
-
-export interface OrganizationListResponse extends ApiResponse {
-    data: Organization[];
-}
-
-export interface OrganizationAccountListResponse extends ApiResponse {
-    data: Account[];
-}
-
-export interface OrganizationResponse extends ApiResponse {
-    data: Organization;
-}
+import {OrganizationListResponse} from './models/organization-list-response';
+import {OrganizationResponse} from './models/organization-response';
+import {OrganizationAccountListResponse} from './models/organization-account-list-response';
 
 @Injectable()
 export class OrganizationApiService {
@@ -35,7 +23,11 @@ export class OrganizationApiService {
         return this.http.get(`${this.baseUrl}/${id}`);
     }
 
-    public getRoot(): Observable<OrganizationResponse> {
+    public delete(organizationId: string): Observable<ApiResponse> {
+        return this.http.delete(`${this.baseUrl}/${organizationId}`);
+    }
+
+    public getRoot() {
         return this.http.get(`${this.baseUrl}/root`);
     }
 
