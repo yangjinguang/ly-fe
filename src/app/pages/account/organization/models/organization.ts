@@ -11,5 +11,6 @@ export interface Organization {
     tenantId: string;
     createdAt: Date;
     updatedAt: Date;
+    numberOfChildren: number;
     children?: Organization[];
 }

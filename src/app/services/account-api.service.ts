@@ -20,6 +20,10 @@ export interface Account {
 }
 
 export interface AccountResponse extends ApiResponse {
+    data: Account;
+}
+
+export interface AccountListResponse extends ApiResponse {
     data: Account[];
 }
 
@@ -39,8 +43,12 @@ export class AccountApiService {
         return this.http.get(`${this.baseUrl}/profile`);
     }
 
-    public list(page: number, size: number): Observable<AccountResponse> {
+    public list(page: number, size: number): Observable<AccountListResponse> {
         return this.http.get(this.baseUrl, {page: page, size: size});
+    }
+
+    public create(postData: object): Observable<AccountResponse> {
+        return this.http.post(`${this.baseUrl}`, postData);
     }
 
 }

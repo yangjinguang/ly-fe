@@ -23,7 +23,7 @@ export class OrganizationTreeService {
                 key: org.id.toString()
             });
             newNode.origin = org;
-            newNode.isLeaf = !org.children || org.children.length <= 0;
+            newNode.isLeaf = org.numberOfChildren <= 0;
             newNode.parentNode = orgTreeNode;
             // newNode.nzShowExpand = !newNode.isLeaf;
             orgTreeNode.children = orgTreeNode.children || [];
@@ -34,16 +34,32 @@ export class OrganizationTreeService {
         });
     }
 
-    public setOrgTree(organizations: Organization[]) {
+    public setOrgTree(organization: Organization) {
         const rootNode = new NzTreeNode({
-            title: '全公司',
-            key: '0'
+            title: organization.name,
+            key: organization.id.toString()
         });
         rootNode.isExpanded = true;
         rootNode.isSelected = true;
+        rootNode.origin = organization;
         this.orgTree = [rootNode];
-        this.orgTreeBuild(organizations, rootNode);
+        this.orgTreeBuild(organization.children, rootNode);
         this.subject.next(this.orgTree);
+    }
+
+    public setChildren(orgTreeNode: NzTreeNode, organizations: Organization[]) {
+        const children: NzTreeNode[] = [];
+        organizations.forEach(org => {
+            const newNode = new NzTreeNode({
+                title: org.name,
+                key: org.id.toString()
+            });
+            newNode.origin = org;
+            newNode.isLeaf = org.numberOfChildren <= 0;
+            newNode.parentNode = orgTreeNode;
+            children.push(newNode);
+        });
+        orgTreeNode.children = children;
     }
 
 

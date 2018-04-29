@@ -6,20 +6,25 @@ import {Router} from '@angular/router';
 import {OrganizationCreateModalComponent} from '../components/organization-create-modal/organization-create-modal.component';
 import {FormGroup} from '@angular/forms';
 import {OrganizationAccountCreateModalComponent} from '../components/organization-account-create-modal/organization-account-create-modal.component';
+import {Account, AccountApiService} from '../../../../services/account-api.service';
+import {Organization} from '../models/organization';
 
 @Component({
     selector: 'app-organization-tree',
     templateUrl: './organization-tree.component.html',
     styleUrls: ['./organization-tree.component.scss'],
-    providers: [OrganizationApiService]
+    providers: [OrganizationApiService, AccountApiService]
 })
 export class OrganizationTreeComponent implements OnInit {
     public orgTree: NzTreeNode[];
     public curTreeNode: NzTreeNode;
+    public curOrganization: Organization;
     private dragNodeParent: NzTreeNode;
+    public accounts: Account[];
 
     constructor(private organizationApi: OrganizationApiService,
                 private orgTreeService: OrganizationTreeService,
+                private accountApi: AccountApiService,
                 private router: Router,
                 private modalService: NzModalService,
                 private message: NzMessageService) {
@@ -29,20 +34,50 @@ export class OrganizationTreeComponent implements OnInit {
         this.orgTreeService.orgTreeChanged().subscribe(result => {
             this.orgTree = result;
             console.log(this.orgTree);
+            this.curTreeNode = this.orgTree[0];
+            this.curOrganization = this.curTreeNode.origin;
         });
-        this.getOrgTree();
+        this.getOrgRoot();
     }
 
-    private getOrgTree() {
-        this.organizationApi.tree().subscribe(result => {
-            const organizations = result.data.children;
-            this.orgTreeService.setOrgTree(organizations);
+    private getOrgRoot() {
+        this.organizationApi.getRoot().subscribe(result => {
+            const organization = result.data;
+            this.orgTreeService.setOrgTree(organization);
         });
     }
+
 
     public orgItemClick(e: NzFormatEmitEvent) {
         e.node.isSelected = true;
         this.curTreeNode = e.node;
+        this.curOrganization = e.node.origin;
+        this.getAccounts(e.node.origin);
+    }
+
+    public treeExpand(e: NzFormatEmitEvent) {
+        const org = e.node.origin as Organization;
+        if (!e.node.isExpanded || e.node.children.length > 0) {
+            return;
+        }
+        this.organizationApi.getChildren(org.organizationId).subscribe(result => {
+            this.orgTreeService.setChildren(e.node, result.data);
+            e.node.isLoading = false;
+        });
+
+    }
+
+    private getAccounts(org: Organization) {
+        if (org.parentId === 'ROOT') {
+            this.accountApi.list(1, 20).subscribe(result => {
+                this.accounts = result.data;
+            });
+        } else {
+            this.organizationApi.accounts(org.id, true).subscribe(result => {
+                this.accounts = result.data;
+            });
+        }
+
     }
 
     public openOrganizationCreateModal() {
@@ -50,7 +85,7 @@ export class OrganizationTreeComponent implements OnInit {
             nzTitle: '创建组织',
             nzContent: OrganizationCreateModalComponent,
             nzComponentParams: {
-                parentOrganization: this.curTreeNode && this.curTreeNode.origin || null
+                parentOrganization: this.curOrganization || null
             },
             nzFooter: [
                 {
@@ -81,15 +116,17 @@ export class OrganizationTreeComponent implements OnInit {
         this.organizationApi.create(postData).subscribe(result => {
             console.log(result);
             modal.close();
-            if (postData.parentId === this.curTreeNode.origin.organizationId) {
+            if (postData.parentId === this.curOrganization.organizationId) {
                 const newNode = new NzTreeNode({
                     title: result.data.name,
                     key: result.data.id.toString()
                 });
                 newNode.origin = result.data;
+                newNode.isLeaf = true;
+                this.curTreeNode.isLeaf = false;
                 this.curTreeNode.children.push(newNode);
             } else {
-                this.getOrgTree();
+                this.getOrgRoot();
             }
             this.message.success('创建成功');
         });
@@ -121,16 +158,22 @@ export class OrganizationTreeComponent implements OnInit {
 
     public createAccount(accountForm: FormGroup, modal: NzModalRef) {
         const postData = {
-            username: accountForm.get('username').value,
-            name: accountForm.get('name').value,
-            email: accountForm.get('email').value,
-            phone: accountForm.get('phone').value,
-            isAdmin: accountForm.get('isAdmin').value
+            account: {
+                username: accountForm.get('username').value,
+                name: accountForm.get('name').value,
+                email: accountForm.get('email').value,
+                phone: accountForm.get('phone').value,
+                isAdmin: accountForm.get('isAdmin').value
+            },
+            organizationIds: [this.curOrganization.organizationId]
+
         };
-        console.log(postData);
-        // TODO API
-        modal.close();
-        this.message.success('添加成功');
+        this.accountApi.create(postData).subscribe(result => {
+            modal.close();
+            this.getAccounts(this.curOrganization);
+            this.message.success('添加成功');
+        });
+
     }
 
     public deleteOrganization() {

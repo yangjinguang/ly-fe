@@ -1,9 +1,11 @@
 <div class="org-tree">
     <nz-tree [(ngModel)]="orgTree"
              [nzDraggable]="true"
+             [nzAsyncData]="true"
              (nzOnDragStart)="orgDragStart($event)"
              (nzOnDrop)="orgDrop($event)"
              [nzShowLine]="true"
+             (nzExpandChange)="treeExpand($event)"
              (nzClick)="orgItemClick($event)">
     </nz-tree>
 
@@ -42,5 +44,33 @@
                 </li>
             </ul>
         </nz-dropdown>
+    </div>
+    <div class="org-list">
+        <nz-table #basicTable [nzData]="accounts">
+            <thead>
+            <tr>
+                <th>用户名</th>
+                <th>姓名</th>
+                <th>邮箱</th>
+                <th>手机号</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{data.username}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.phone}}</td>
+                <td>{{data.enabled}}</td>
+                <td>
+                    <a>编辑</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a>Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
     </div>
 </div>
