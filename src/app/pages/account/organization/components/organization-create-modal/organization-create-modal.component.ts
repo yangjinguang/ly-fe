@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../../../../../components/profile/profile.service';
-import {Account} from '../../../../../services/account-api.service';
 import {OrganizationApiService} from '../../../../../services/organization-api.service';
 import {Organization} from '../../models/organization';
+import {Account} from '../../models/account';
 
 @Component({
     selector: 'app-organization-create-modal',
@@ -15,7 +15,8 @@ export class OrganizationCreateModalComponent implements OnInit {
     public profile: Account;
     public organizations: Organization[];
     public orgForm: FormGroup;
-    @Input('parentOrganization') public parentOrganization;
+    @Input('parentOrganization') public parentOrganization: Organization;
+    @Input('organization') public organization: Organization;
 
     constructor(private profileService: ProfileService,
                 private organizationApi: OrganizationApiService,
@@ -43,11 +44,12 @@ export class OrganizationCreateModalComponent implements OnInit {
     }
 
     private orgFormBuild() {
+        const parentId = this.organization ? this.organization.parentId : this.parentOrganization && this.parentOrganization.organizationId;
         this.orgForm = this.fb.group({
-            parentId: [this.parentOrganization && this.parentOrganization.organizationId, Validators.required],
-            name: [null, Validators.required],
-            description: [],
-            isClass: [false]
+            parentId: [parentId, Validators.required],
+            name: [this.organization && this.organization.name, Validators.required],
+            description: [this.organization && this.organization.description],
+            isClass: [this.organization && this.organization.isClass]
         });
     }
 }

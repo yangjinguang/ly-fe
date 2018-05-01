@@ -43,6 +43,10 @@ export class OrganizationApiService {
         return this.http.post(this.baseUrl, postData);
     }
 
+    public update(id: number, postData: Object): Observable<OrganizationResponse> {
+        return this.http.put(`${this.baseUrl}/${id}`, postData);
+    }
+
     public accounts(orgId: number, deep?: boolean): Observable<OrganizationAccountListResponse> {
         return this.http.get(`${this.baseUrl}/${orgId}/accounts`, {deep: deep});
     }

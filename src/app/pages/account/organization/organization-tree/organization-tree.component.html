@@ -17,7 +17,8 @@
             <button nz-button [nzType]="'primary'" nz-dropdown><span>操作</span> <i class="anticon anticon-down"></i>
             </button>
             <ul nz-menu>
-                <li *ngIf="curTreeNode&&curTreeNode.key!=='0';" nz-menu-item (click)="openOrganizationCreateModal()">
+                <li *ngIf="curTreeNode&&curTreeNode.key!=='0';" nz-menu-item
+                    (click)="openOrganizationCreateModal(curOrganization)">
                     <a>
                         <i class="anticon anticon-form"></i>
                         编辑
