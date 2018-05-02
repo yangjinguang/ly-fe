@@ -24,6 +24,18 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="organizationIds">部门</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <nz-select nzMode="tags" nzShowSearch nzAllowClear nzPlaceHolder="选择部门" formControlName="organizationIds">
+                <nz-option *ngFor="let item of organizations"
+                           [nzLabel]="item.route.length>1?item.route.slice(1).join('/'):item.route[0]"
+                           [nzValue]="item.organizationId">
+
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
         <nz-form-label [nzSpan]="6" nzFor="isAdmin">管理员</nz-form-label>
         <nz-form-control [nzSpan]="14">
             <nz-radio-group formControlName="isAdmin">

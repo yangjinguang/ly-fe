@@ -1,3 +1,5 @@
+import {Organization} from './organization';
+
 export interface Account {
     id: number;
     username: string;
@@ -6,9 +8,10 @@ export interface Account {
     phone: string;
     wxOpenId: string;
     avatar: string;
+    tenantId: number;
+    isAdmin: boolean;
+    organizationIds: string[];
+    organizations: Organization[];
     createdAt: Date;
     updatedAt: Date;
-    tenantId: number;
-    organizationId: number;
-    roleId: number;
 }

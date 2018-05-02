@@ -81,7 +81,7 @@ export class OrganizationTreeComponent implements OnInit {
 
     }
 
-    public openOrganizationCreateModal(organization: Organization) {
+    public openOrganizationCreateModal(organization?: Organization) {
         const modal = this.modalService.create({
             nzTitle: organization ? '编辑部门' : '创建部门',
             nzContent: OrganizationCreateModalComponent,
@@ -149,10 +149,13 @@ export class OrganizationTreeComponent implements OnInit {
 
     }
 
-    public openCreateAccountModal() {
+    public openCreateAccountModal(account?: Account) {
         const modal = this.modalService.create({
             nzTitle: '添加员工',
             nzContent: OrganizationAccountCreateModalComponent,
+            nzComponentParams: {
+                account: account
+            },
             nzFooter: [
                 {
                     label: '取消',
@@ -166,30 +169,43 @@ export class OrganizationTreeComponent implements OnInit {
                     type: 'primary',
                     disabled: (a) => a.accountForm.invalid,
                     onClick: (a) => {
-                        this.createAccount(a.accountForm, modal);
+                        this.createAccount(account && account.id, a.accountForm, modal);
                     }
                 }
             ]
         });
     }
 
-    public createAccount(accountForm: FormGroup, modal: NzModalRef) {
+    public createAccount(id: number, accountForm: FormGroup, modal: NzModalRef) {
         const postData = {
-            account: {
-                username: accountForm.get('username').value,
-                name: accountForm.get('name').value,
-                email: accountForm.get('email').value,
-                phone: accountForm.get('phone').value,
-                isAdmin: accountForm.get('isAdmin').value
-            },
-            organizationIds: [this.curOrganization.organizationId]
+            username: accountForm.get('username').value,
+            name: accountForm.get('name').value,
+            email: accountForm.get('email').value,
+            phone: accountForm.get('phone').value,
+            organizationIds: accountForm.get('organizationIds') ? accountForm.get('organizationIds').value : [this.curOrganization.organizationId],
+            isAdmin: accountForm.get('isAdmin').value
         };
-        this.accountApi.create(postData).subscribe(result => {
-            modal.close();
-            this.getAccounts(this.curOrganization);
-            this.message.success('添加成功');
-        });
+        if (id) {
+            this.accountApi.update(id, postData).subscribe(result => {
+                modal.close();
+                this.getAccounts(this.curOrganization);
+                this.message.success('更新成功');
+            });
+        } else {
+            this.accountApi.create(postData).subscribe(result => {
+                modal.close();
+                this.getAccounts(this.curOrganization);
+                this.message.success('添加成功');
+            });
+        }
 
+
+    }
+
+    public updateAccount(account: Account) {
+        this.accountApi.detail(account.id).subscribe(result => {
+            this.openCreateAccountModal(result.data);
+        });
     }
 
     public deleteOrganization() {

@@ -26,4 +26,12 @@ export class AccountApiService {
         return this.http.post(`${this.baseUrl}`, postData);
     }
 
+    public update(id: number, postData: object): Observable<AccountResponse> {
+        return this.http.put(`${this.baseUrl}/${id}`, postData);
+    }
+
+    public detail(id: number): Observable<AccountResponse> {
+        return this.http.get(`${this.baseUrl}/${id}`);
+    }
+
 }

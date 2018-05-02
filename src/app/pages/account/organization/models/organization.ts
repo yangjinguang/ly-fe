@@ -12,5 +12,6 @@ export interface Organization {
     createdAt: Date;
     updatedAt: Date;
     numberOfChildren: number;
+    route: string[];
     children?: Organization[];
 }
