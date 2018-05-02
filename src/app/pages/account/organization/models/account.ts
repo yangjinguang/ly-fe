@@ -10,6 +10,7 @@ export interface Account {
     avatar: string;
     tenantId: number;
     isAdmin: boolean;
+    status: number;
     organizationIds: string[];
     organizations: Organization[];
     createdAt: Date;

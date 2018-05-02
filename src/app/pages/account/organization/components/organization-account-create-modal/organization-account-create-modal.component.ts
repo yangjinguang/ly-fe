@@ -14,6 +14,7 @@ export class OrganizationAccountCreateModalComponent implements OnInit {
     public accountForm: FormGroup;
     public organizations: Organization[];
     @Input('account') public account: Account;
+    @Input('organization') public organization: Organization;
 
     constructor(private fb: FormBuilder,
                 private organizationApi: OrganizationApiService) {
@@ -30,7 +31,7 @@ export class OrganizationAccountCreateModalComponent implements OnInit {
             name: [this.account && this.account.name],
             email: [this.account && this.account.email, Validators.email],
             phone: [this.account && this.account.phone],
-            organizationIds: [this.account && this.account.organizationIds],
+            organizationIds: [this.account && this.account.organizationIds || [this.organization.organizationId]],
             isAdmin: [this.account && this.account.isAdmin || false]
         });
 

@@ -27,5 +27,13 @@
                 <p>{{profile.email}}</p>
             </div>
         </div>
+        <div class="form-static-group">
+            <label class="form-static-label">部门</label>
+            <div class="form-static-control">
+                <p *ngFor="let org of profile.organizations">
+                    {{org.route.join('/')}}
+                </p>
+            </div>
+        </div>
     </div>
 </div>

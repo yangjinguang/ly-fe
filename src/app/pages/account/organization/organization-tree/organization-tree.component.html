@@ -64,11 +64,42 @@
                 <td>{{data.name}}</td>
                 <td>{{data.email}}</td>
                 <td>{{data.phone}}</td>
-                <td>{{data.enabled}}</td>
                 <td>
-                    <a (click)="updateAccount(data)">编辑</a>
+                    <span
+                        [ngClass]="{'text-danger': data.status===accountStatusEnum.BLOCKED,'text-success': data.status===accountStatusEnum.NORMAL,'test-muted': data.status===accountStatusEnum.DELETED}">
+                        {{accountStatus[data.status]}}
+                    </span>
+                </td>
+                <td>
+                    <a (click)="profileView(data)">详情</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a>Delete</a>
+                    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+                        <a nz-dropdown>
+                            <i class="anticon anticon-setting"></i>
+                        </a>
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="updateAccountClick(data)">
+                                <i class="anticon anticon-form"></i>
+                                编辑
+                            </li>
+                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatusEnum.BLOCKED)"
+                                *ngIf="data.status===accountStatusEnum.NORMAL">
+                                <i class="anticon anticon-pause-circle-o"></i>
+                                停用
+                            </li>
+                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatusEnum.NORMAL)"
+                                *ngIf="data.status===accountStatusEnum.BLOCKED">
+                                <i class="anticon anticon-play-circle-o"></i>
+                                启用
+                            </li>
+                            <li nz-menu-divider></li>
+                            <li nz-menu-item class="text-danger" (click)="changeAccountStatus(data,accountStatusEnum.DELETED)"
+                                *ngIf="data.status!==accountStatusEnum.DELETED">
+                                <i class="anticon anticon-delete"></i>
+                                删除
+                            </li>
+                        </ul>
+                    </nz-dropdown>
                 </td>
             </tr>
             </tbody>

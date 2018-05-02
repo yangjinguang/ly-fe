@@ -9,6 +9,9 @@ import {OrganizationAccountCreateModalComponent} from '../components/organizatio
 import {AccountApiService} from '../../../../services/account-api.service';
 import {Organization} from '../models/organization';
 import {Account} from '../models/account';
+import {ProfileService} from '../../../../components/profile/profile.service';
+import {AccountStatus, AccountStatusEnum} from '../models/account-status-enum.enum';
+
 
 @Component({
     selector: 'app-organization-tree',
@@ -22,11 +25,14 @@ export class OrganizationTreeComponent implements OnInit {
     public curOrganization: Organization;
     private dragNodeParent: NzTreeNode;
     public accounts: Account[];
+    public accountStatusEnum = AccountStatusEnum;
+    public accountStatus = AccountStatus;
 
     constructor(private organizationApi: OrganizationApiService,
                 private orgTreeService: OrganizationTreeService,
                 private accountApi: AccountApiService,
                 private router: Router,
+                private profileService: ProfileService,
                 private modalService: NzModalService,
                 private message: NzMessageService) {
     }
@@ -154,7 +160,8 @@ export class OrganizationTreeComponent implements OnInit {
             nzTitle: '添加员工',
             nzContent: OrganizationAccountCreateModalComponent,
             nzComponentParams: {
-                account: account
+                account: account,
+                organization: this.curOrganization
             },
             nzFooter: [
                 {
@@ -202,9 +209,15 @@ export class OrganizationTreeComponent implements OnInit {
 
     }
 
-    public updateAccount(account: Account) {
+    public updateAccountClick(account: Account) {
         this.accountApi.detail(account.id).subscribe(result => {
             this.openCreateAccountModal(result.data);
+        });
+    }
+
+    public profileView(account: Account) {
+        this.accountApi.detail(account.id).subscribe(result => {
+            this.profileService.view(result.data);
         });
     }
 
@@ -236,4 +249,31 @@ export class OrganizationTreeComponent implements OnInit {
         // TODO 调API改变排序和父节点
     }
 
+    public changeAccountStatus(account: Account, status: AccountStatusEnum) {
+        let s = '';
+        switch (status) {
+            case this.accountStatusEnum.NORMAL:
+                s = '启用';
+                break;
+            case this.accountStatusEnum.BLOCKED:
+                s = '停用';
+                break;
+            case this.accountStatusEnum.DELETED:
+                s = '删除';
+                break;
+        }
+        this.modalService.confirm({
+            nzTitle: '确定要' + s + '此帐号吗？',
+            nzOnOk: () => {
+                console.log(account);
+                this.accountApi.changeStatus(account.id, status).subscribe(result => {
+                    account.status = result.data.status;
+                    this.message.success(s + '成功');
+                    if (result.data.status === this.accountStatusEnum.DELETED) {
+                        this.getAccounts(this.curOrganization);
+                    }
+                });
+            }
+        });
+    }
 }
