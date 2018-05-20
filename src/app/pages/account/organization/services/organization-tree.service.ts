@@ -23,7 +23,7 @@ export class OrganizationTreeService {
                 key: org.id.toString()
             });
             newNode.origin = org;
-            newNode.isLeaf = org.numberOfChildren <= 0;
+            // newNode.isLeaf = org.numberOfChildren <= 0;
             newNode.parentNode = orgTreeNode;
             // newNode.nzShowExpand = !newNode.isLeaf;
             orgTreeNode.children = orgTreeNode.children || [];
@@ -55,7 +55,7 @@ export class OrganizationTreeService {
                 key: org.id.toString()
             });
             newNode.origin = org;
-            newNode.isLeaf = org.numberOfChildren <= 0;
+            // newNode.isLeaf = org.numberOfChildren <= 0;
             newNode.parentNode = orgTreeNode;
             children.push(newNode);
         });

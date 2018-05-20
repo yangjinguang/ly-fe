@@ -3,10 +3,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginApiService} from '../services/login-api.service';
 import {TokenService} from '../services/token.service';
 import {Router} from '@angular/router';
-import {Tenant, TenantApiService} from '../services/tenant-api.service';
+import {TenantApiService} from '../services/tenant-api.service';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {LoginTenantSelectComponent} from './login-tenant-select/login-tenant-select.component';
 import {ProfileService} from '../components/profile/profile.service';
+import {Tenant} from '../services/models/tenant';
 
 @Component({
     selector: 'app-login',

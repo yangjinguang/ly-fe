@@ -51,4 +51,8 @@ export class OrganizationApiService {
         return this.http.get(`${this.baseUrl}/${orgId}/accounts`, {deep: deep});
     }
 
+    public order(ids: number[]): Observable<ApiResponse> {
+        return this.http.put(`${this.baseUrl}/order`, {ids: ids});
+    }
+
 }

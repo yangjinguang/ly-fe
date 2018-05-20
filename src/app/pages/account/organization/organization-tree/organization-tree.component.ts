@@ -23,10 +23,10 @@ export class OrganizationTreeComponent implements OnInit {
     public orgTree: NzTreeNode[];
     public curTreeNode: NzTreeNode;
     public curOrganization: Organization;
-    private dragNodeParent: NzTreeNode;
     public accounts: Account[];
     public accountStatusEnum = AccountStatusEnum;
     public accountStatus = AccountStatus;
+    public dragOrgParentId: string;
 
     constructor(private organizationApi: OrganizationApiService,
                 private orgTreeService: OrganizationTreeService,
@@ -143,8 +143,6 @@ export class OrganizationTreeComponent implements OnInit {
                         key: result.data.id.toString()
                     });
                     newNode.origin = result.data;
-                    newNode.isLeaf = true;
-                    this.curTreeNode.isLeaf = false;
                     this.curTreeNode.children.push(newNode);
                 } else {
                     this.getOrgRoot();
@@ -236,17 +234,32 @@ export class OrganizationTreeComponent implements OnInit {
         });
     }
 
-    public orgDragStart(e) {
-        this.dragNodeParent = e.dragNode.getParentNode();
+    public orgDragStart(e: NzFormatEmitEvent) {
+        this.dragOrgParentId = e.dragNode.origin.parentId;
     }
 
-    public orgDrop(e) {
+    private changeOrder(node: NzTreeNode) {
+        const ids = [];
+        node.children.forEach(child => {
+            ids.push(child.origin.id);
+        });
+        this.organizationApi.order(ids).subscribe();
+    }
+
+    public orgDrop(e: NzFormatEmitEvent) {
+        console.log(e);
         const dragNode = e.dragNode;
-        if (this.dragNodeParent && this.dragNodeParent.children.length <= 0) {
-            this.dragNodeParent.isLeaf = true;
-        }
         const dropNode = e.node;
-        // TODO 调API改变排序和父节点
+        if (dragNode.origin.parentId !== dragNode.parentNode.origin.organizationId) {
+            const postData = {
+                parentId: dragNode.parentNode.origin.organizationId
+            };
+            this.organizationApi.update(dragNode.origin.id, postData).subscribe(result => {
+                this.changeOrder(dragNode.parentNode);
+            });
+        } else {
+            this.changeOrder(dragNode.parentNode);
+        }
     }
 
     public changeAccountStatus(account: Account, status: AccountStatusEnum) {

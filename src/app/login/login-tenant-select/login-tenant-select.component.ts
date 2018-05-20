@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Tenant} from '../../services/tenant-api.service';
 import {NzModalRef} from 'ng-zorro-antd';
+import {Tenant} from '../../services/models/tenant';
 
 @Component({
     selector: 'app-login-tenant-select',

@@ -13,11 +13,14 @@
 <div class="org-body">
     <div class="org-list-title">
         <h3>{{curTreeNode?.origin?.name||'全公司'}}</h3>
-        <nz-dropdown [nzTrigger]="'click'">
-            <button nz-button [nzType]="'primary'" nz-dropdown><span>操作</span> <i class="anticon anticon-down"></i>
-            </button>
+        <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+            <!--<button nz-button [nzType]="'primary'" nz-dropdown><span>操作</span> <i class="anticon anticon-down"></i>-->
+            <!--</button>-->
+            <a nz-dropdown>
+                <i class="anticon anticon-setting"></i>
+            </a>
             <ul nz-menu>
-                <li *ngIf="curTreeNode&&curTreeNode.key!=='0';" nz-menu-item
+                <li *ngIf="curTreeNode&&curOrganization.parentId!=='ROOT';" nz-menu-item
                     (click)="openOrganizationCreateModal(curOrganization)">
                     <a>
                         <i class="anticon anticon-form"></i>
@@ -47,6 +50,9 @@
         </nz-dropdown>
     </div>
     <div class="org-list">
+        <div class="org-list-filter">
+
+        </div>
         <nz-table #basicTable [nzData]="accounts">
             <thead>
             <tr>
@@ -60,7 +66,10 @@
             </thead>
             <tbody>
             <tr *ngFor="let data of basicTable.data">
-                <td>{{data.username}}</td>
+                <td>
+                    {{data.username}}
+                    &nbsp;&nbsp;<nz-tag *ngIf="data.isAdmin" [nzColor]="'gold'">管理员</nz-tag>
+                </td>
                 <td>{{data.name}}</td>
                 <td>{{data.email}}</td>
                 <td>{{data.phone}}</td>
@@ -93,7 +102,8 @@
                                 启用
                             </li>
                             <li nz-menu-divider></li>
-                            <li nz-menu-item class="text-danger" (click)="changeAccountStatus(data,accountStatusEnum.DELETED)"
+                            <li nz-menu-item class="text-danger"
+                                (click)="changeAccountStatus(data,accountStatusEnum.DELETED)"
                                 *ngIf="data.status!==accountStatusEnum.DELETED">
                                 <i class="anticon anticon-delete"></i>
                                 删除
