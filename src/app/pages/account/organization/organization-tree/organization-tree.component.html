@@ -12,7 +12,10 @@
 </div>
 <div class="org-body">
     <div class="org-list-title">
-        <h3>{{curTreeNode?.origin?.name||'全公司'}}</h3>
+        <h3>
+            {{curTreeNode?.origin?.name||'全公司'}}
+            <nz-tag *ngIf="curTreeNode?.origin?.isClass" [nzColor]="'green'">班级</nz-tag>
+        </h3>
         <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
             <!--<button nz-button [nzType]="'primary'" nz-dropdown><span>操作</span> <i class="anticon anticon-down"></i>-->
             <!--</button>-->
