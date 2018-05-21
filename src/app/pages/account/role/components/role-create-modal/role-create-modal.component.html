@@ -1,0 +1,18 @@
+<form nz-form [formGroup]="roleForm">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>角色名</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+            <input nz-input formControlName="name">
+            <nz-form-explain
+                *ngIf="roleForm.get('name').dirty && roleForm.get('name').errors">
+                必填
+            </nz-form-explain>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7">说明</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+            <textarea nz-input formControlName="description"></textarea>
+        </nz-form-control>
+    </nz-form-item>
+</form>
