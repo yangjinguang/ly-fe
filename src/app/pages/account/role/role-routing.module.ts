@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {RoleComponent} from './role.component';
 import {RoleListComponent} from './role-list/role-list.component';
+import {RoleMemberComponent} from './role-member/role-member.component';
 
 const routes: Routes = [
     {
@@ -11,6 +12,10 @@ const routes: Routes = [
             {
                 path: 'list',
                 component: RoleListComponent
+            },
+            {
+                path: ':id/member',
+                component: RoleMemberComponent
             },
             {
                 path: '',

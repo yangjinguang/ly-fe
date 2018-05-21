@@ -56,7 +56,12 @@
         <div class="org-list-filter">
 
         </div>
-        <nz-table #basicTable [nzData]="accounts">
+        <nz-table #basicTable
+                  [nzData]="accounts"
+                  [nzPageSize]="size"
+                  [nzPageIndex]="page"
+                  [nzTotal]="total"
+                  (nzPageIndexChange)="pageChange($event)">
             <thead>
             <tr>
                 <th>用户名</th>

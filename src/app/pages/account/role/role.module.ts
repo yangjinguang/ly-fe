@@ -6,6 +6,7 @@ import {RoleRoutingModule} from './role-routing.module';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {RoleCreateModalComponent} from './components/role-create-modal/role-create-modal.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { RoleMemberComponent } from './role-member/role-member.component';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     declarations: [
         RoleComponent,
         RoleListComponent,
-        RoleCreateModalComponent
+        RoleCreateModalComponent,
+        RoleMemberComponent
     ],
     entryComponents: [
         RoleCreateModalComponent

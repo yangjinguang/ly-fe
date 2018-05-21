@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    height: 100%;
+    padding: 0 20px 20px;
+    flex-direction: column;
+    nz-breadcrumb {
+        margin: 16px 0;
+        //margin-bottom: 20px;
+    }
+    .table-list {
+        flex: 1;
+        overflow: auto;
+    }
+}

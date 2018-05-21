@@ -23,6 +23,7 @@ export class RoleListComponent implements OnInit {
                 private msg: NzMessageService) {
         this.page = 1;
         this.size = 20;
+        this.roles = [];
     }
 
     ngOnInit() {
@@ -92,7 +93,9 @@ export class RoleListComponent implements OnInit {
     }
 
     public pageChange(page: number) {
-        this.getRoles(page);
+        if (page && page !== this.page) {
+            this.getRoles(page);
+        }
     }
 
     public enabledOrDisabled(role: Role, enabled: boolean) {

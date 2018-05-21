@@ -27,6 +27,9 @@ export class OrganizationTreeComponent implements OnInit {
     public accountStatus = AccountStatus;
     public accountStatusTrans = AccountStatusTrans;
     public dragOrgParentId: string;
+    public page: number;
+    public size: number;
+    public total: number;
 
     constructor(private organizationApi: OrganizationApiService,
                 private orgTreeService: OrganizationTreeService,
@@ -35,6 +38,9 @@ export class OrganizationTreeComponent implements OnInit {
                 private profileService: ProfileService,
                 private modalService: NzModalService,
                 private message: NzMessageService) {
+        this.page = 1;
+        this.size = 20;
+        this.accounts = [];
     }
 
     ngOnInit() {
@@ -50,7 +56,7 @@ export class OrganizationTreeComponent implements OnInit {
         this.organizationApi.getRoot().subscribe(result => {
             const organization = result.data;
             this.orgTreeService.setOrgTree(organization);
-            this.getAccounts(organization);
+            this.getAccounts(organization, this.page);
         });
     }
 
@@ -59,7 +65,7 @@ export class OrganizationTreeComponent implements OnInit {
         e.node.isSelected = true;
         this.curTreeNode = e.node;
         this.curOrganization = e.node.origin;
-        this.getAccounts(e.node.origin);
+        this.getAccounts(e.node.origin, 1);
     }
 
     public treeExpand(e: NzFormatEmitEvent) {
@@ -74,14 +80,18 @@ export class OrganizationTreeComponent implements OnInit {
 
     }
 
-    private getAccounts(org: Organization) {
+    private getAccounts(org: Organization, page: number) {
         if (org.parentId === 'ROOT') {
-            this.accountApi.list(1, 20).subscribe(result => {
-                this.accounts = result.data;
+            this.accountApi.list(page, this.size).subscribe(result => {
+                this.accounts = result.data.list;
+                this.page = result.data.pagination.page;
+                this.total = result.data.pagination.total;
             });
         } else {
-            this.organizationApi.accounts(org.id, true).subscribe(result => {
-                this.accounts = result.data;
+            this.organizationApi.accounts(org.id, page, this.size, true).subscribe(result => {
+                this.accounts = result.data.list;
+                this.page = result.data.pagination.page;
+                this.total = result.data.pagination.total;
             });
         }
 
@@ -193,13 +203,13 @@ export class OrganizationTreeComponent implements OnInit {
         if (id) {
             this.accountApi.update(id, postData).subscribe(result => {
                 modal.close();
-                this.getAccounts(this.curOrganization);
+                this.getAccounts(this.curOrganization, this.page);
                 this.message.success('更新成功');
             });
         } else {
             this.accountApi.create(postData).subscribe(result => {
                 modal.close();
-                this.getAccounts(this.curOrganization);
+                this.getAccounts(this.curOrganization, this.page);
                 this.message.success('添加成功');
             });
         }
@@ -283,10 +293,16 @@ export class OrganizationTreeComponent implements OnInit {
                     account.status = result.data.status;
                     this.message.success(s + '成功');
                     if (result.data.status === this.accountStatus.DELETED) {
-                        this.getAccounts(this.curOrganization);
+                        this.getAccounts(this.curOrganization, this.page);
                     }
                 });
             }
         });
+    }
+
+    public pageChange(page: number) {
+        if (page && page !== this.page) {
+            this.getAccounts(this.curOrganization, page);
+        }
     }
 }

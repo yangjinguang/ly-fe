@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {RoleListResponse} from './models/role-list-response';
 import {RoleResponse} from './models/role-response';
+import {AccountListResponse} from './models/account-list-response';
 
 @Injectable()
 export class RoleApiService {
@@ -31,5 +32,13 @@ export class RoleApiService {
 
     public enabledOrDisabled(id: number, enabled: boolean): Observable<RoleResponse> {
         return this.http.put(`${this.baseUrl}/${id}/${enabled}`, {});
+    }
+
+    public detail(id: number): Observable<RoleResponse> {
+        return this.http.get(`${this.baseUrl}/${id}/detail`);
+    }
+
+    public members(roleId: String, page: number, size: number): Observable<AccountListResponse> {
+        return this.http.get(`${this.baseUrl}/${roleId}/members`, {page: page, size: size});
     }
 }
