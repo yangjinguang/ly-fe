@@ -8,5 +8,6 @@ export const environment = {
     loginApi: '/api/login',
     accountApi: '/api/accounts',
     tenantApi: '/api/tenants',
-    organizationApi: '/api/organizations'
+    organizationApi: '/api/organizations',
+    roleApi: '/api/roles'
 };

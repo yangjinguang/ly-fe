@@ -78,8 +78,8 @@
                 <td>{{data.phone}}</td>
                 <td>
                     <span
-                        [ngClass]="{'text-danger': data.status===accountStatusEnum.BLOCKED,'text-success': data.status===accountStatusEnum.NORMAL,'test-muted': data.status===accountStatusEnum.DELETED}">
-                        {{accountStatus[data.status]}}
+                        [ngClass]="{'text-danger': data.status===accountStatus.BLOCKED,'text-success': data.status===accountStatus.NORMAL,'test-muted': data.status===accountStatus.DELETED}">
+                        {{accountStatusTrans[data.status]}}
                     </span>
                 </td>
                 <td>
@@ -94,20 +94,20 @@
                                 <i class="anticon anticon-form"></i>
                                 编辑
                             </li>
-                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatusEnum.BLOCKED)"
-                                *ngIf="data.status===accountStatusEnum.NORMAL">
+                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatus.BLOCKED)"
+                                *ngIf="data.status===accountStatus.NORMAL">
                                 <i class="anticon anticon-pause-circle-o"></i>
                                 停用
                             </li>
-                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatusEnum.NORMAL)"
-                                *ngIf="data.status===accountStatusEnum.BLOCKED">
+                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatus.NORMAL)"
+                                *ngIf="data.status===accountStatus.BLOCKED">
                                 <i class="anticon anticon-play-circle-o"></i>
                                 启用
                             </li>
                             <li nz-menu-divider></li>
                             <li nz-menu-item class="text-danger"
-                                (click)="changeAccountStatus(data,accountStatusEnum.DELETED)"
-                                *ngIf="data.status!==accountStatusEnum.DELETED">
+                                (click)="changeAccountStatus(data,accountStatus.DELETED)"
+                                *ngIf="data.status!==accountStatus.DELETED">
                                 <i class="anticon anticon-delete"></i>
                                 删除
                             </li>

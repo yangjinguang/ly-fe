@@ -64,3 +64,20 @@ a:hover {
         margin-right: 5px;
     }
 }
+
+.table-list {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    .table-list-filter {
+        margin-bottom: 20px;
+    }
+    .table-list-control {
+        margin-bottom: 20px;
+    }
+    .table-list-table {
+        flex: 1;
+        overflow: auto;
+    }
+}

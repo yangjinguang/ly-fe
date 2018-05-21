@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {AccountProfileResponse} from './models/account-profile-response';
 import {AccountListResponse} from './models/account-list-response';
 import {AccountResponse} from './models/account-response';
-import {AccountStatusEnum} from '../pages/account/organization/models/account-status-enum.enum';
+import {AccountStatus} from '../pages/account/organization/enums/account.status';
 
 @Injectable()
 export class AccountApiService {
@@ -35,7 +35,7 @@ export class AccountApiService {
         return this.http.get(`${this.baseUrl}/${id}`);
     }
 
-    public changeStatus(id: number, status: AccountStatusEnum): Observable<AccountResponse> {
+    public changeStatus(id: number, status: AccountStatus): Observable<AccountResponse> {
         return this.http.put(`${this.baseUrl}/${id}`, {status: status});
     }
 

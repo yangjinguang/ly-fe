@@ -1,4 +1,5 @@
 import {Organization} from './organization';
+import {AccountStatus} from '../enums/account.status';
 
 export interface Account {
     id: number;
@@ -10,7 +11,7 @@ export interface Account {
     avatar: string;
     tenantId: number;
     isAdmin: boolean;
-    status: number;
+    status: AccountStatus;
     organizationIds: string[];
     organizations: Organization[];
     createdAt: Date;

@@ -1,3 +1,67 @@
-<p>
-  role-list works!
-</p>
+<nz-breadcrumb>
+    <nz-breadcrumb-item>账户管理</nz-breadcrumb-item>
+    <nz-breadcrumb-item>角色</nz-breadcrumb-item>
+    <nz-breadcrumb-item>列表</nz-breadcrumb-item>
+</nz-breadcrumb>
+<div class="role-list table-list">
+    <!--<div class="table-list-filter"></div>-->
+    <div class="table-list-control">
+        <button nz-button [nzType]="'primary'" (click)="createRoleOpen()">创建角色</button>
+    </div>
+    <div class="table-list-table">
+        <nz-table #roleTable
+                  [nzData]="roles"
+                  [nzPageIndex]="page"
+                  [nzPageSize]="size"
+                  [nzTotal]="total"
+                  (nzPageIndexChange)="pageChange($event)">
+            <thead>
+            <tr>
+                <th>角色名</th>
+                <th>说明</th>
+                <th nzWidth="120px">状态</th>
+                <th nzWidth="80px">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of roleTable.data">
+                <td>{{data.name}}</td>
+                <td>{{data.description}}</td>
+                <td nzWidth="80px">
+                    <nz-tag *ngIf="data.enabled" [nzColor]="'green'">启用</nz-tag>
+                    <nz-tag *ngIf="!data.enabled" [nzColor]="'red'">停用</nz-tag>
+                </td>
+                <td nzWidth="120px">
+                    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
+                        <a nz-dropdown>
+                            <i class="anticon anticon-setting"></i>
+                        </a>
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="createRoleOpen(data)">
+                                <i class="anticon anticon-form"></i>
+                                编辑
+                            </li>
+                            <li nz-menu-item (click)="enabledOrDisabled(data,false)"
+                                *ngIf="data.enabled">
+                                <i class="anticon anticon-pause-circle-o"></i>
+                                停用
+                            </li>
+                            <li nz-menu-item (click)="enabledOrDisabled(data,true)"
+                                *ngIf="!data.enabled">
+                                <i class="anticon anticon-play-circle-o"></i>
+                                启用
+                            </li>
+                            <li nz-menu-divider></li>
+                            <li nz-menu-item class="text-danger"
+                                (click)="deleteRole(data)">
+                                <i class="anticon anticon-delete"></i>
+                                删除
+                            </li>
+                        </ul>
+                    </nz-dropdown>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {NzMessageService} from 'ng-zorro-antd';
+import {HttpError} from './http-error';
 
 @Injectable()
 export class AppHttpClient {
@@ -38,7 +39,6 @@ export class AppHttpClient {
         if (errResp instanceof HttpErrorResponse) {
             switch (errResp.status) {
                 case 401:
-                    console.log(errResp);
                     // handle Unauthorized error and redirect to login page
                     errMsg = '401 Unauthorized';
                     console.log(this.router.url);
@@ -47,7 +47,6 @@ export class AppHttpClient {
                     }
                     break;
                 case 403:
-                    console.log(errResp);
                     errMsg = '403 Forbidden';
                     console.log();
                     if (errResp.error['code'] === 1) {
@@ -57,13 +56,13 @@ export class AppHttpClient {
                     }
                     break;
                 default:
-                    this.message.error('请求错误');
+                    // this.message.error('请求错误');
                     break;
             }
         } else {
             errMsg = 'Request Error';
         }
-        return Observable.throw(errResp);
+        return Observable.throw(errResp.error as HttpError);
     }
 
     public get(url, search?: object, headers?: HttpHeaders): Observable<any> {

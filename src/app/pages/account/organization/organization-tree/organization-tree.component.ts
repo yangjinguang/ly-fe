@@ -10,7 +10,7 @@ import {AccountApiService} from '../../../../services/account-api.service';
 import {Organization} from '../models/organization';
 import {Account} from '../models/account';
 import {ProfileService} from '../../../../components/profile/profile.service';
-import {AccountStatus, AccountStatusEnum} from '../models/account-status-enum.enum';
+import {AccountStatusTrans, AccountStatus} from '../enums/account.status';
 
 
 @Component({
@@ -24,8 +24,8 @@ export class OrganizationTreeComponent implements OnInit {
     public curTreeNode: NzTreeNode;
     public curOrganization: Organization;
     public accounts: Account[];
-    public accountStatusEnum = AccountStatusEnum;
     public accountStatus = AccountStatus;
+    public accountStatusTrans = AccountStatusTrans;
     public dragOrgParentId: string;
 
     constructor(private organizationApi: OrganizationApiService,
@@ -262,16 +262,16 @@ export class OrganizationTreeComponent implements OnInit {
         }
     }
 
-    public changeAccountStatus(account: Account, status: AccountStatusEnum) {
+    public changeAccountStatus(account: Account, status: AccountStatus) {
         let s = '';
         switch (status) {
-            case this.accountStatusEnum.NORMAL:
+            case this.accountStatus.NORMAL:
                 s = '启用';
                 break;
-            case this.accountStatusEnum.BLOCKED:
+            case this.accountStatus.BLOCKED:
                 s = '停用';
                 break;
-            case this.accountStatusEnum.DELETED:
+            case this.accountStatus.DELETED:
                 s = '删除';
                 break;
         }
@@ -282,7 +282,7 @@ export class OrganizationTreeComponent implements OnInit {
                 this.accountApi.changeStatus(account.id, status).subscribe(result => {
                     account.status = result.data.status;
                     this.message.success(s + '成功');
-                    if (result.data.status === this.accountStatusEnum.DELETED) {
+                    if (result.data.status === this.accountStatus.DELETED) {
                         this.getAccounts(this.curOrganization);
                     }
                 });
