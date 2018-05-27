@@ -19,50 +19,24 @@
                   (nzPageIndexChange)="pageChange($event)">
             <thead>
             <tr>
-                <th>角色名</th>
-                <th>说明</th>
-                <th nzWidth="80px">状态</th>
+                <th>用户名</th>
+                <th>姓名</th>
+                <th>邮箱</th>
+                <th>手机号</th>
                 <th nzWidth="120px">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let data of roleTable.data">
-                <td>{{data.name}}</td>
-                <td>{{data.description}}</td>
-                <td nzWidth="80px">
-                    <nz-tag *ngIf="data.enabled" [nzColor]="'green'">启用</nz-tag>
-                    <nz-tag *ngIf="!data.enabled" [nzColor]="'red'">停用</nz-tag>
+                <td>
+                    {{data.username}}
+                    &nbsp;&nbsp;<nz-tag *ngIf="data.isAdmin" [nzColor]="'gold'">管理员</nz-tag>
                 </td>
-                <td nzWidth="120px">
-                    <a routerLink="../{{data.roleId}}/member">成员</a>
-                    <nz-divider nzType="vertical"></nz-divider>
-                    <nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
-                        <a nz-dropdown>
-                            <i class="anticon anticon-setting"></i>
-                        </a>
-                        <ul nz-menu>
-                            <li nz-menu-item (click)="createRoleOpen(data)">
-                                <i class="anticon anticon-form"></i>
-                                编辑
-                            </li>
-                            <li nz-menu-item (click)="enabledOrDisabled(data,false)"
-                                *ngIf="data.enabled">
-                                <i class="anticon anticon-pause-circle-o"></i>
-                                停用
-                            </li>
-                            <li nz-menu-item (click)="enabledOrDisabled(data,true)"
-                                *ngIf="!data.enabled">
-                                <i class="anticon anticon-play-circle-o"></i>
-                                启用
-                            </li>
-                            <li nz-menu-divider></li>
-                            <li nz-menu-item class="text-danger"
-                                (click)="deleteRole(data)">
-                                <i class="anticon anticon-delete"></i>
-                                删除
-                            </li>
-                        </ul>
-                    </nz-dropdown>
+                <td>{{data.name}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.phone}}</td>
+                <td>
+                    <a (click)="removeMember(data)">移除</a>
                 </td>
             </tr>
             </tbody>

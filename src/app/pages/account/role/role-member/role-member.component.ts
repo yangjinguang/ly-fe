@@ -3,6 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {RoleApiService} from '../../../../services/role-api.service';
 import {Role} from '../models/role';
 import {Account} from '../../organization/models/account';
+import {NzModalService} from 'ng-zorro-antd';
+import {RoleMembersBindModalComponent} from '../components/role-members-bind-modal/role-members-bind-modal.component';
 
 @Component({
     selector: 'app-role-member',
@@ -18,7 +20,8 @@ export class RoleMemberComponent implements OnInit {
     public total: number;
 
     constructor(private route: ActivatedRoute,
-                private roleApi: RoleApiService) {
+                private roleApi: RoleApiService,
+                private modalService: NzModalService) {
         this.members = [];
     }
 
@@ -52,6 +55,32 @@ export class RoleMemberComponent implements OnInit {
     }
 
     public bindAccount() {
+        const modal = this.modalService.create({
+            nzTitle: '成员绑定',
+            nzContent: RoleMembersBindModalComponent,
+            nzComponentParams: {
+                role: this.role
+            },
+            nzFooter: [
+                {
+                    label: '取消',
+                    type: 'default',
+                    onClick: () => {
+                        modal.close();
+                    }
+                },
+                {
+                    label: '确定',
+                    type: 'primary',
+                    onClick: () => {
+                        modal.close();
+                    }
+                }
+            ]
+        });
+    }
+
+    public removeMember(data: Account) {
 
     }
 }

@@ -1,0 +1,9 @@
+<app-x-transfer
+    [sData]="usersSource"
+    [map]="userBindMap"
+    (sListOnScroll)="loadUsers()"
+    [sSearchPipeDisabled]="true"
+    [isDataGetting]="isUserGetting"
+    (dDataChanged)="userBindChange($event)"
+    (sSearchChange)="userSearchChange($event)">
+</app-x-transfer>

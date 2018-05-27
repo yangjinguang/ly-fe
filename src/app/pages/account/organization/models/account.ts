@@ -3,6 +3,7 @@ import {AccountStatus} from '../enums/account.status';
 
 export interface Account {
     id: number;
+    accountId: string;
     username: string;
     name: string;
     email: string;

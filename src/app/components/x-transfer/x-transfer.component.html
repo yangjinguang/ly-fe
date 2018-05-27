@@ -1,0 +1,65 @@
+<div class="x-transfer-part x-transfer-part-left">
+    <div class="xtp-title">
+        <label nz-checkbox
+               [nzIndeterminate]="sIndeterminate"
+               (nzCheckedChange)="sAllCheckedChange($event)"
+               [nzChecked]="sCheckedData.length>0&&sCheckedData.length===(sData|xTransSData:map._xKey:dDataKeys).length">
+            {{sCheckedData?.length||0}}/{{(sData|xTransSData:map._xKey:dDataKeys).length}}项
+        </label>
+    </div>
+    <div class="xtp-search">
+        <nz-input-group nzSuffixIcon="anticon anticon-search">
+            <input type="text" nz-input placeholder="搜索" [formControl]="sSearchValue">
+        </nz-input-group>
+    </div>
+    <div class="xtp-list" (scroll)="listScroll($event,'s')">
+        <ul>
+            <li *ngFor="let item of sData|xTransSData:map._xKey:dDataKeys|xTransItemSearch:sSearchValue.value:map._xValue:sSearchPipeDisabled">
+                <label class="xtp-list-item"
+                       nz-checkbox
+                       [(ngModel)]="item[map._xChecked]"
+                       (nzCheckedChange)="sCheckedChange($event)">
+                    {{item[map._xValue]}}
+                </label>
+            </li>
+            <li *ngIf="isDataGetting" style="padding: 0 16px">
+                <i class="anticon anticon-spin anticon-loading"></i>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="x-transfer-control">
+    <button nz-button [disabled]="dCheckedData.length<=0" (click)="toLeft()">
+        <i class="anticon anticon-left"></i>
+    </button>
+    <button nz-button [disabled]="sCheckedData.length<=0" (click)="toRight()">
+        <i class="anticon anticon-right"></i>
+    </button>
+</div>
+<div class="x-transfer-part x-transfer-part-right">
+    <div class="xtp-title">
+        <label nz-checkbox
+               [nzIndeterminate]="dIndeterminate"
+               (nzCheckedChange)="dAllCheckedChange($event)"
+               [nzChecked]="dCheckedData.length>0&&dCheckedData.length === dData.length">
+            {{dCheckedData?.length||0}}/{{dData.length}}项
+        </label>
+    </div>
+    <div class="xtp-search">
+        <nz-input-group nzSuffixIcon="anticon anticon-search">
+            <input type="text" nz-input placeholder="搜索">
+        </nz-input-group>
+    </div>
+    <div class="xtp-list" (scroll)="listScroll($event,'d')">
+        <ul>
+            <li *ngFor="let item of dData|xTransItemSearch:dSearchValue.value:map._xValue:dSearchPipeDisabled">
+                <label class="xtp-list-item"
+                       nz-checkbox
+                       [(ngModel)]="item[map._xChecked]"
+                       (nzCheckedChange)="dCheckedChange($event)">
+                    {{item[map._xValue]}}
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
