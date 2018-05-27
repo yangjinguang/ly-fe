@@ -6,7 +6,8 @@
 export const environment = {
     production: false,
     loginApi: '/api/login',
-    accountApi: '/api/accounts',
+    accountApi: '/api/contacts',
+    contactApi: '/api/contacts',
     tenantApi: '/api/tenants',
     organizationApi: '/api/organizations',
     roleApi: '/api/roles'

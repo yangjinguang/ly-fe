@@ -1,23 +1,23 @@
 import {Injectable} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd';
-import {AccountApiService} from '../../services/account-api.service';
 import {ProfileComponent} from './profile.component';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {Account} from '../../pages/account/organization/models/account';
+import {ContactApiService} from '../../services/contact-api.service';
+import {Contact} from '../../pages/account/organization/models/contact';
 
 @Injectable()
 export class ProfileService {
-    private curProfile: Account;
-    private subject: Subject<Account>;
+    private curProfile: Contact;
+    private subject: Subject<Contact>;
     private isGetting: boolean;
 
     constructor(private modalService: NzModalService,
-                private accountApi: AccountApiService) {
-        this.subject = new Subject<Account>();
+                private contactApi: ContactApiService) {
+        this.subject = new Subject<Contact>();
     }
 
-    public view(profile: Account) {
+    public view(profile: Contact) {
         const modal = this.modalService.create({
             nzTitle: null,
             nzFooter: null,
@@ -38,7 +38,7 @@ export class ProfileService {
                 });
             } else {
                 this.isGetting = true;
-                this.accountApi.profile().subscribe(result => {
+                this.contactApi.profile().subscribe(result => {
                     this.curProfile = result.data;
                     this.subject.next(this.curProfile);
                     this.isGetting = false;
@@ -48,8 +48,8 @@ export class ProfileService {
         return this.subject.asObservable();
     }
 
-    public refreshProfile(): Observable<Account> {
-        return this.accountApi.profile().map(result => {
+    public refreshProfile(): Observable<Contact> {
+        return this.contactApi.profile().map(result => {
             this.curProfile = result.data;
             this.subject.next(this.curProfile);
             this.isGetting = false;

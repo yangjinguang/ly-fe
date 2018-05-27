@@ -36,7 +36,7 @@
                         添加子部门
                     </a>
                 </li>
-                <li nz-menu-item (click)="openCreateAccountModal()">
+                <li nz-menu-item (click)="openCreateContactModal()">
                     <a>
                         <i class="anticon anticon-user-add"></i>
                         添加员工
@@ -57,14 +57,13 @@
 
         </div>
         <nz-table #basicTable
-                  [nzData]="accounts"
+                  [nzData]="contacts"
                   [nzPageSize]="size"
                   [nzPageIndex]="page"
                   [nzTotal]="total"
                   (nzPageIndexChange)="pageChange($event)">
             <thead>
             <tr>
-                <th>用户名</th>
                 <th>姓名</th>
                 <th>邮箱</th>
                 <th>手机号</th>
@@ -74,11 +73,9 @@
             </thead>
             <tbody>
             <tr *ngFor="let data of basicTable.data">
-                <td>
-                    {{data.username}}
-                    &nbsp;&nbsp;<nz-tag *ngIf="data.isAdmin" [nzColor]="'gold'">管理员</nz-tag>
+                <td>{{data.name}}
+                    <nz-tag *ngIf="data.isAdmin" [nzColor]="'gold'">管理员</nz-tag>
                 </td>
-                <td>{{data.name}}</td>
                 <td>{{data.email}}</td>
                 <td>{{data.phone}}</td>
                 <td>
@@ -99,19 +96,19 @@
                                 <i class="anticon anticon-form"></i>
                                 编辑
                             </li>
-                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatus.BLOCKED)"
+                            <li nz-menu-item (click)="changeContactStatus(data,accountStatus.BLOCKED)"
                                 *ngIf="data.status===accountStatus.NORMAL">
                                 <i class="anticon anticon-pause-circle-o"></i>
                                 停用
                             </li>
-                            <li nz-menu-item (click)="changeAccountStatus(data,accountStatus.NORMAL)"
+                            <li nz-menu-item (click)="changeContactStatus(data,accountStatus.NORMAL)"
                                 *ngIf="data.status===accountStatus.BLOCKED">
                                 <i class="anticon anticon-play-circle-o"></i>
                                 启用
                             </li>
                             <li nz-menu-divider></li>
                             <li nz-menu-item class="text-danger"
-                                (click)="changeAccountStatus(data,accountStatus.DELETED)"
+                                (click)="changeContactStatus(data,accountStatus.DELETED)"
                                 *ngIf="data.status!==accountStatus.DELETED">
                                 <i class="anticon anticon-delete"></i>
                                 删除

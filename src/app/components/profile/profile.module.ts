@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ProfileComponent} from './profile.component';
 import {ProfileService} from './profile.service';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
-import {AccountApiService} from '../../services/account-api.service';
+import {ContactApiService} from '../../services/contact-api.service';
 
 @NgModule({
     imports: [
@@ -12,7 +12,7 @@ import {AccountApiService} from '../../services/account-api.service';
     ],
     declarations: [ProfileComponent],
     entryComponents: [ProfileComponent],
-    providers: [ProfileService, AccountApiService]
+    providers: [ProfileService, ContactApiService]
 })
 export class ProfileModule {
 }

@@ -5,6 +5,7 @@ import {Role} from '../models/role';
 import {Account} from '../../organization/models/account';
 import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {RoleMembersBindModalComponent} from '../components/role-members-bind-modal/role-members-bind-modal.component';
+import {Contact} from '../../organization/models/contact';
 
 @Component({
     selector: 'app-role-member',
@@ -14,7 +15,7 @@ import {RoleMembersBindModalComponent} from '../components/role-members-bind-mod
 })
 export class RoleMemberComponent implements OnInit {
     public role: Role;
-    public members: Account[];
+    public members: Contact[];
     public page: number;
     public size: number;
     public total: number;
@@ -80,14 +81,14 @@ export class RoleMemberComponent implements OnInit {
                     type: 'primary',
                     disabled: (a) => a.selectedUsers.length <= 0,
                     onClick: (a) => {
-                        this.bindAccounts(a.selectedUsers, modal);
+                        this.bindContacts(a.selectedUsers, modal);
                     }
                 }
             ]
         });
     }
 
-    private bindAccounts(selectedUsers: Account[], modal: NzModalRef) {
+    private bindContacts(selectedUsers: Contact[], modal: NzModalRef) {
         console.log(selectedUsers);
         modal.close();
         this.roleApi.bindMembers(this.role.roleId, selectedUsers.map(i => i.accountId)).subscribe(result => {

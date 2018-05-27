@@ -1,5 +1,5 @@
-<form nz-form [formGroup]="accountForm">
-    <nz-form-item>
+<form nz-form [formGroup]="contactForm">
+    <nz-form-item *ngIf="!contact">
         <nz-form-label [nzSpan]="6" nzFor="username" [nzRequired]="true">用户名</nz-form-label>
         <nz-form-control [nzSpan]="14">
             <input style="width: 200px;" nz-input name="username" formControlName="username">

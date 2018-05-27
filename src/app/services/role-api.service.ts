@@ -6,6 +6,8 @@ import {RoleListResponse} from './models/role-list-response';
 import {RoleResponse} from './models/role-response';
 import {AccountListResponse} from './models/account-list-response';
 import {ApiResponse} from './models/api-response';
+import {ContactApiService} from './contact-api.service';
+import {ContactListResponse} from './models/contact-list-response';
 
 @Injectable()
 export class RoleApiService {
@@ -39,15 +41,15 @@ export class RoleApiService {
         return this.http.get(`${this.baseUrl}/${id}/detail`);
     }
 
-    public members(roleId: String, page: number, size: number): Observable<AccountListResponse> {
+    public members(roleId: String, page: number, size: number): Observable<ContactListResponse> {
         return this.http.get(`${this.baseUrl}/${roleId}/members`, {page: page, size: size});
     }
 
-    public bindMembers(roleId: String, accountIds: String[]): Observable<ApiResponse> {
-        return this.http.put(`${this.baseUrl}/${roleId}/bindMembers`, {accountIds: accountIds});
+    public bindMembers(roleId: String, contactIds: String[]): Observable<ApiResponse> {
+        return this.http.put(`${this.baseUrl}/${roleId}/bindMembers`, {contactIds: contactIds});
     }
 
-    public unBindMembers(roleId: String, accountIds: String[]): Observable<ApiResponse> {
-        return this.http.put(`${this.baseUrl}/${roleId}/unBindMembers`, {accountIds: accountIds});
+    public unBindMembers(roleId: String, contactIds: String[]): Observable<ApiResponse> {
+        return this.http.put(`${this.baseUrl}/${roleId}/unBindMembers`, {contactIds: contactIds});
     }
 }

@@ -4,7 +4,7 @@ import {SideNavService} from '../side-nav/side-nav.service';
 import {ProfileService} from '../profile/profile.service';
 import {TokenService} from '../../services/token.service';
 import {Router} from '@angular/router';
-import {Account} from '../../pages/account/organization/models/account';
+import {Contact} from '../../pages/account/organization/models/contact';
 
 @Component({
     selector: 'app-nav',
@@ -13,7 +13,7 @@ import {Account} from '../../pages/account/organization/models/account';
     providers: [AccountApiService]
 })
 export class NavComponent implements OnInit {
-    public profile: Account;
+    public profile: Contact;
     public isCollapsed = false;
 
     constructor(private accountApi: AccountApiService,

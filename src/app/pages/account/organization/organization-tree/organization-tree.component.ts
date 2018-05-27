@@ -5,12 +5,14 @@ import {OrganizationTreeService} from '../services/organization-tree.service';
 import {Router} from '@angular/router';
 import {OrganizationCreateModalComponent} from '../components/organization-create-modal/organization-create-modal.component';
 import {FormGroup} from '@angular/forms';
-import {OrganizationAccountCreateModalComponent} from '../components/organization-account-create-modal/organization-account-create-modal.component';
+import {OrganizationContactCreateModalComponent} from '../components/organization-contact-create-modal/organization-contact-create-modal.component';
 import {AccountApiService} from '../../../../services/account-api.service';
 import {Organization} from '../models/organization';
 import {Account} from '../models/account';
 import {ProfileService} from '../../../../components/profile/profile.service';
-import {AccountStatusTrans, AccountStatus} from '../enums/account.status';
+import {ContactStatusTrans, ContactStatus} from '../enums/contactStatus';
+import {ContactApiService} from '../../../../services/contact-api.service';
+import {Contact} from '../models/contact';
 
 
 @Component({
@@ -23,9 +25,9 @@ export class OrganizationTreeComponent implements OnInit {
     public orgTree: NzTreeNode[];
     public curTreeNode: NzTreeNode;
     public curOrganization: Organization;
-    public accounts: Account[];
-    public accountStatus = AccountStatus;
-    public accountStatusTrans = AccountStatusTrans;
+    public contacts: Contact[];
+    public accountStatus = ContactStatus;
+    public accountStatusTrans = ContactStatusTrans;
     public dragOrgParentId: string;
     public page: number;
     public size: number;
@@ -33,14 +35,14 @@ export class OrganizationTreeComponent implements OnInit {
 
     constructor(private organizationApi: OrganizationApiService,
                 private orgTreeService: OrganizationTreeService,
-                private accountApi: AccountApiService,
+                private contactApi: ContactApiService,
                 private router: Router,
                 private profileService: ProfileService,
                 private modalService: NzModalService,
                 private message: NzMessageService) {
         this.page = 1;
         this.size = 20;
-        this.accounts = [];
+        this.contacts = [];
     }
 
     ngOnInit() {
@@ -82,14 +84,14 @@ export class OrganizationTreeComponent implements OnInit {
 
     private getAccounts(org: Organization, page: number) {
         if (org.parentId === 'ROOT') {
-            this.accountApi.list(page, this.size).subscribe(result => {
-                this.accounts = result.data.list;
+            this.contactApi.list(page, this.size).subscribe(result => {
+                this.contacts = result.data.list;
                 this.page = result.data.pagination.page;
                 this.total = result.data.pagination.total;
             });
         } else {
-            this.organizationApi.accounts(org.id, page, this.size, true).subscribe(result => {
-                this.accounts = result.data.list;
+            this.organizationApi.contacts(org.id, page, this.size, true).subscribe(result => {
+                this.contacts = result.data.list;
                 this.page = result.data.pagination.page;
                 this.total = result.data.pagination.total;
             });
@@ -163,12 +165,12 @@ export class OrganizationTreeComponent implements OnInit {
 
     }
 
-    public openCreateAccountModal(account?: Account) {
+    public openCreateContactModal(contact?: Contact) {
         const modal = this.modalService.create({
-            nzTitle: '添加员工',
-            nzContent: OrganizationAccountCreateModalComponent,
+            nzTitle: contact ? '编辑' : '添加' + '员工',
+            nzContent: OrganizationContactCreateModalComponent,
             nzComponentParams: {
-                account: account,
+                contact: contact,
                 organization: this.curOrganization
             },
             nzFooter: [
@@ -182,32 +184,32 @@ export class OrganizationTreeComponent implements OnInit {
                 {
                     label: '确定',
                     type: 'primary',
-                    disabled: (a) => a.accountForm.invalid,
+                    disabled: (a) => a.contactForm.invalid,
                     onClick: (a) => {
-                        this.createAccount(account && account.id, a.accountForm, modal);
+                        this.createContact(contact && contact.id, a.contactForm, modal);
                     }
                 }
             ]
         });
     }
 
-    public createAccount(id: number, accountForm: FormGroup, modal: NzModalRef) {
+    public createContact(id: number, contactForm: FormGroup, modal: NzModalRef) {
         const postData = {
-            username: accountForm.get('username').value,
-            name: accountForm.get('name').value,
-            email: accountForm.get('email').value,
-            phone: accountForm.get('phone').value,
-            organizationIds: accountForm.get('organizationIds') ? accountForm.get('organizationIds').value : [this.curOrganization.organizationId],
-            isAdmin: accountForm.get('isAdmin').value
+            username: contactForm.get('username').value,
+            name: contactForm.get('name').value,
+            email: contactForm.get('email').value,
+            phone: contactForm.get('phone').value,
+            organizationIds: contactForm.get('organizationIds') ? contactForm.get('organizationIds').value : [this.curOrganization.organizationId],
+            isAdmin: contactForm.get('isAdmin').value
         };
         if (id) {
-            this.accountApi.update(id, postData).subscribe(result => {
+            this.contactApi.update(id, postData).subscribe(result => {
                 modal.close();
                 this.getAccounts(this.curOrganization, this.page);
                 this.message.success('更新成功');
             });
         } else {
-            this.accountApi.create(postData).subscribe(result => {
+            this.contactApi.create(postData).subscribe(result => {
                 modal.close();
                 this.getAccounts(this.curOrganization, this.page);
                 this.message.success('添加成功');
@@ -218,13 +220,13 @@ export class OrganizationTreeComponent implements OnInit {
     }
 
     public updateAccountClick(account: Account) {
-        this.accountApi.detail(account.id).subscribe(result => {
-            this.openCreateAccountModal(result.data);
+        this.contactApi.detail(account.id).subscribe(result => {
+            this.openCreateContactModal(result.data);
         });
     }
 
     public profileView(account: Account) {
-        this.accountApi.detail(account.id).subscribe(result => {
+        this.contactApi.detail(account.id).subscribe(result => {
             this.profileService.view(result.data);
         });
     }
@@ -272,7 +274,7 @@ export class OrganizationTreeComponent implements OnInit {
         }
     }
 
-    public changeAccountStatus(account: Account, status: AccountStatus) {
+    public changeContactStatus(contact: Contact, status: ContactStatus) {
         let s = '';
         switch (status) {
             case this.accountStatus.NORMAL:
@@ -288,9 +290,9 @@ export class OrganizationTreeComponent implements OnInit {
         this.modalService.confirm({
             nzTitle: '确定要' + s + '此帐号吗？',
             nzOnOk: () => {
-                console.log(account);
-                this.accountApi.changeStatus(account.id, status).subscribe(result => {
-                    account.status = result.data.status;
+                console.log(contact);
+                this.contactApi.changeStatus(contact.id, status).subscribe(result => {
+                    contact.status = result.data.status;
                     this.message.success(s + '成功');
                     if (result.data.status === this.accountStatus.DELETED) {
                         this.getAccounts(this.curOrganization, this.page);

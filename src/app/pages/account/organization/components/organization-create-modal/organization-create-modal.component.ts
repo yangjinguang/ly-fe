@@ -4,6 +4,7 @@ import {ProfileService} from '../../../../../components/profile/profile.service'
 import {OrganizationApiService} from '../../../../../services/organization-api.service';
 import {Organization} from '../../models/organization';
 import {Account} from '../../models/account';
+import {Contact} from '../../models/contact';
 
 @Component({
     selector: 'app-organization-create-modal',
@@ -12,7 +13,7 @@ import {Account} from '../../models/account';
     providers: [OrganizationApiService]
 })
 export class OrganizationCreateModalComponent implements OnInit {
-    public profile: Account;
+    public profile: Contact;
     public organizations: Organization[];
     public orgForm: FormGroup;
     @Input('parentOrganization') public parentOrganization: Organization;

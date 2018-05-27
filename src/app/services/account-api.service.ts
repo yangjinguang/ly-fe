@@ -2,10 +2,8 @@ import {Injectable} from '@angular/core';
 import {AppHttpClient} from '../libs/http/http-client';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs/Observable';
-import {AccountProfileResponse} from './models/account-profile-response';
 import {AccountListResponse} from './models/account-list-response';
 import {AccountResponse} from './models/account-response';
-import {AccountStatus} from '../pages/account/organization/enums/account.status';
 
 @Injectable()
 export class AccountApiService {
@@ -13,10 +11,6 @@ export class AccountApiService {
 
     constructor(private http: AppHttpClient) {
         this.baseUrl = environment.accountApi;
-    }
-
-    public profile(): Observable<AccountProfileResponse> {
-        return this.http.get(`${this.baseUrl}/profile`);
     }
 
     public list(page: number, size: number): Observable<AccountListResponse> {
@@ -30,13 +24,4 @@ export class AccountApiService {
     public update(id: number, postData: object): Observable<AccountResponse> {
         return this.http.put(`${this.baseUrl}/${id}`, postData);
     }
-
-    public detail(id: number): Observable<AccountResponse> {
-        return this.http.get(`${this.baseUrl}/${id}`);
-    }
-
-    public changeStatus(id: number, status: AccountStatus): Observable<AccountResponse> {
-        return this.http.put(`${this.baseUrl}/${id}`, {status: status});
-    }
-
 }

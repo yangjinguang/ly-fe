@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {OrganizationListResponse} from './models/organization-list-response';
 import {OrganizationResponse} from './models/organization-response';
 import {AccountListResponse} from './models/account-list-response';
+import {ContactListResponse} from './models/contact-list-response';
 
 @Injectable()
 export class OrganizationApiService {
@@ -47,8 +48,8 @@ export class OrganizationApiService {
         return this.http.put(`${this.baseUrl}/${id}`, postData);
     }
 
-    public accounts(orgId: number, page: number, size: number, deep?: boolean): Observable<AccountListResponse> {
-        return this.http.get(`${this.baseUrl}/${orgId}/accounts`, {deep: deep, page: page, size: size});
+    public contacts(orgId: number, page: number, size: number, deep?: boolean): Observable<ContactListResponse> {
+        return this.http.get(`${this.baseUrl}/${orgId}/contacts`, {deep: deep, page: page, size: size});
     }
 
     public order(ids: number[]): Observable<ApiResponse> {
