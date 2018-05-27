@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {RoleListResponse} from './models/role-list-response';
 import {RoleResponse} from './models/role-response';
 import {AccountListResponse} from './models/account-list-response';
+import {ApiResponse} from './models/api-response';
 
 @Injectable()
 export class RoleApiService {
@@ -40,5 +41,13 @@ export class RoleApiService {
 
     public members(roleId: String, page: number, size: number): Observable<AccountListResponse> {
         return this.http.get(`${this.baseUrl}/${roleId}/members`, {page: page, size: size});
+    }
+
+    public bindMembers(roleId: String, accountIds: String[]): Observable<ApiResponse> {
+        return this.http.put(`${this.baseUrl}/${roleId}/bindMembers`, {accountIds: accountIds});
+    }
+
+    public unBindMembers(roleId: String, accountIds: String[]): Observable<ApiResponse> {
+        return this.http.put(`${this.baseUrl}/${roleId}/unBindMembers`, {accountIds: accountIds});
     }
 }

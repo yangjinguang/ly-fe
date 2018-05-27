@@ -8,7 +8,7 @@
         <h2>{{role.name}}</h2>
     </div>
     <div class="table-list-control">
-        <button nz-button [nzType]="'primary'" (click)="bindAccount()">绑定帐号</button>
+        <button nz-button [nzType]="'primary'" (click)="bindAccountModalOpen()">绑定帐号</button>
     </div>
     <div class="table-list-table">
         <nz-table #roleTable
@@ -16,6 +16,7 @@
                   [nzPageIndex]="page"
                   [nzPageSize]="size"
                   [nzTotal]="total"
+                  [nzFrontPagination]="false"
                   (nzPageIndexChange)="pageChange($event)">
             <thead>
             <tr>
@@ -28,10 +29,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let data of roleTable.data">
-                <td>
-                    {{data.username}}
-                    &nbsp;&nbsp;<nz-tag *ngIf="data.isAdmin" [nzColor]="'gold'">管理员</nz-tag>
-                </td>
+                <td>{{data.username}}</td>
                 <td>{{data.name}}</td>
                 <td>{{data.email}}</td>
                 <td>{{data.phone}}</td>

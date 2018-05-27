@@ -5,7 +5,6 @@ import {ApiResponse} from './models/api-response';
 import {Observable} from 'rxjs/Observable';
 import {OrganizationListResponse} from './models/organization-list-response';
 import {OrganizationResponse} from './models/organization-response';
-import {OrganizationAccountListResponse} from './models/organization-account-list-response';
 import {AccountListResponse} from './models/account-list-response';
 
 @Injectable()

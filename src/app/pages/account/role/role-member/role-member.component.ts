@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {RoleApiService} from '../../../../services/role-api.service';
 import {Role} from '../models/role';
 import {Account} from '../../organization/models/account';
-import {NzModalService} from 'ng-zorro-antd';
+import {NzMessageService, NzModalRef, NzModalService} from 'ng-zorro-antd';
 import {RoleMembersBindModalComponent} from '../components/role-members-bind-modal/role-members-bind-modal.component';
 
 @Component({
@@ -21,8 +21,11 @@ export class RoleMemberComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private roleApi: RoleApiService,
-                private modalService: NzModalService) {
+                private modalService: NzModalService,
+                private msg: NzMessageService) {
         this.members = [];
+        this.page = 1;
+        this.size = 20;
     }
 
     ngOnInit() {
@@ -45,16 +48,19 @@ export class RoleMemberComponent implements OnInit {
     private getMembers(roleId: string, page: number) {
         this.roleApi.members(roleId, page, this.size).subscribe(result => {
             this.members = result.data.list;
+            console.log(this.members);
             this.page = result.data.pagination.page;
             this.total = result.data.pagination.total;
         });
     }
 
     public pageChange(page: number) {
-        this.getMembers(this.role.roleId, page);
+        if (page && this.total > 0) {
+            this.getMembers(this.role.roleId, page);
+        }
     }
 
-    public bindAccount() {
+    public bindAccountModalOpen() {
         const modal = this.modalService.create({
             nzTitle: '成员绑定',
             nzContent: RoleMembersBindModalComponent,
@@ -72,15 +78,33 @@ export class RoleMemberComponent implements OnInit {
                 {
                     label: '确定',
                     type: 'primary',
-                    onClick: () => {
-                        modal.close();
+                    disabled: (a) => a.selectedUsers.length <= 0,
+                    onClick: (a) => {
+                        this.bindAccounts(a.selectedUsers, modal);
                     }
                 }
             ]
         });
     }
 
+    private bindAccounts(selectedUsers: Account[], modal: NzModalRef) {
+        console.log(selectedUsers);
+        modal.close();
+        this.roleApi.bindMembers(this.role.roleId, selectedUsers.map(i => i.accountId)).subscribe(result => {
+            this.getMembers(this.role.roleId, this.page);
+        });
+    }
+
     public removeMember(data: Account) {
+        this.modalService.confirm({
+            nzTitle: '确定要移除此账户吗?',
+            nzOnOk: () => {
+                this.roleApi.unBindMembers(this.role.roleId, [data.accountId]).subscribe(result => {
+                    this.getMembers(this.role.roleId, this.page);
+                    this.msg.success('移除成功');
+                });
+            }
+        });
 
     }
 }
