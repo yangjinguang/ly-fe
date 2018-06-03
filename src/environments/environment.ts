@@ -10,5 +10,6 @@ export const environment = {
     contactApi: '/api/contacts',
     tenantApi: '/api/tenants',
     organizationApi: '/api/organizations',
-    roleApi: '/api/roles'
+    roleApi: '/api/roles',
+    studentApi: '/api/students'
 };

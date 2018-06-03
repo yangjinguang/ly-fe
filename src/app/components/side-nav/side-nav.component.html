@@ -19,4 +19,15 @@
             </li>
         </ul>
     </li>
+    <li nz-submenu [nzOpen]="isNzOpen('setting')">
+            <span title>
+                <i class="anticon anticon-setting"></i>
+                <span>设置</span>
+            </span>
+        <ul>
+            <li nz-menu-item routerLink="/pages/setting/student-profile-template" routerLinkActive="ant-menu-item-selected">
+                学生信息模板
+            </li>
+        </ul>
+    </li>
 </ul>

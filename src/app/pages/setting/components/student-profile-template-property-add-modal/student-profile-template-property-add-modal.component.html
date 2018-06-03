@@ -1,0 +1,30 @@
+<form nz-form [formGroup]="propertyForm">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>字段名</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+            <input nz-input formControlName="name">
+            <nz-form-explain
+                *ngIf="propertyForm.get('name').dirty && propertyForm.get('name').errors">
+                必填
+            </nz-form-explain>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7">类型</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+            <nz-select nzAllowClear nzPlaceHolder="请选择..."  formControlName="type">
+                <nz-option *ngFor="let type of typeOpts" [nzValue]="type.key" [nzLabel]="type.value"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7">尺寸</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+            <nz-select nzAllowClear nzPlaceHolder="请选择..."  formControlName="size">
+                <nz-option [nzValue]="1" [nzLabel]="'一个单位'"></nz-option>
+                <nz-option [nzValue]="2" [nzLabel]="'两个单位'"></nz-option>
+                <nz-option [nzValue]="3" [nzLabel]="'三个单位'"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+</form>

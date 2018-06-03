@@ -16,6 +16,10 @@ const routes: Routes = [
                 loadChildren: './account/account.module#AccountModule'
             },
             {
+                path: 'setting',
+                loadChildren: './setting/setting.module#SettingModule'
+            },
+            {
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
